@@ -1,0 +1,106 @@
+/* Base del carrito */
+.cart-sidebar {
+    background-color: #ffffff;
+    border-radius: 8px 0 0 8px;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    z-index: 50;
+
+}
+
+/* Header */
+.header-bar {
+    background-color: #605ED3;
+    color: white;
+}
+
+/* Botones de acción */
+.button-cart {
+    background-color: #605ED3;
+    transition: background-color 0.3s ease;
+}
+
+.button-cart:hover {
+    background-color: #D12F89;
+}
+
+.button-cart2 {
+    border-color: #D288C4;
+    color: #D288C4;
+    font-weight: normal;
+    transition: all 0.3s ease;
+}
+
+.button-cart2:hover {
+    background-color: white;
+    color: #605ED3;
+    border-color: #605ED3;
+}
+
+/* Overlay */
+.bk {
+  background-color: rgba(0, 0, 0, 0.41);
+  backdrop-filter: blur(2px);
+  /* pointer-events: none; */
+}
+
+/* Cerrar botón */
+#closeCart:hover {
+    color: #FFDAF8;
+}
+
+/* Estilos para el modal  */
+
+/* Transición suave para el modal */
+.modal-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+.modal-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.modal-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.modal-exit-active {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 300ms, transform 300ms;
+}
+
+
+.lottie-img {
+  width: 60%;
+  margin-top: 20px;
+
+}
+
+.lottie {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+.lottie-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  text-align: center;
+}
+
+
+
+.texto-vacio {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 25px;
+  color: #605ed3;
+}
+
+.fa-trash-alt:hover {
+  color: #D12F89;
+}

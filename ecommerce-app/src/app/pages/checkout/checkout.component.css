@@ -1,0 +1,65 @@
+.btn-class {
+  background-color: #605ED3;
+  color: #fff;
+  padding: 8px 25px;
+  border-radius: 7px;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+
+}
+.btn-class:hover {
+  background-color: #D288C4;
+  transition: background-color 0.3s;
+
+    transition: transform 0.2s;
+
+
+}
+
+.botoneicono {
+  display: flex;
+}
+
+.botoneicono svg {
+  margin-right: 10px;
+}
+
+
+
+.imagen-src {
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 3px;
+  width: 90px;
+  height: 60px;
+}
+
+
+.imagen-src:hover {
+  transform: scale(1.05);
+    transition: transform 0.2s;
+}
+
+.images-cursos {
+  width: 110px;
+  height: 70px;
+
+}
+
+.button-input:focus {
+  outline: none;
+  border: 1.5px solid #605ED3;
+  box-shadow:
+    0 4px 6px -1px rgba(96, 94, 211, 0.1),
+    0 2px 4px -1px rgba(96, 94, 211, 0.06);
+
+}
+
+.fondo-gris {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}

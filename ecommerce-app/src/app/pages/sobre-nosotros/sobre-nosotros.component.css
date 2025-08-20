@@ -1,0 +1,78 @@
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .icon-wrapper {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            font-size: 28px;
+            margin: 0 auto 20px;
+        }
+
+        .margin-bottom {
+            margin-bottom: 80px;
+        }
+
+        .margin-bottom-min{
+            margin-bottom: 40px;
+        }
+
+        .padding-top {
+            padding-top: 40px;
+        }
+
+        .padding-bottom {
+            padding-bottom: 80px;
+        }
+
+        .targets {
+          box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        }
+
+        .targets:hover {
+
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+          cursor: pointer;
+          scale: 1.1;
+        }
+
+        .icons-morado {
+          color: #605ED3;
+        }
+
+        .icons-rosa {
+          color: #D288C4;
+        }
+
+
+        .background-rosa-claro {
+          background-color: #f8edf3;
+        }
+
+
+        .background-morado-claro {
+          background-color: #f1f1ff;
+        }
+
+        .text-t {
+          font-size: 19px;
+          line-height: 1.2;
+          margin-top: 10px;
+        }
+
+        .text-gradient {
+
+  background: #605ED3;
+  background: linear-gradient(90deg, rgba(96, 94, 211, 1) 1%, rgba(210, 136, 196, 1) 24%, rgba(210, 136, 196, 1) 49%, rgba(195, 136, 210, 1) 64%, rgba(179, 136, 210, 1) 81%, rgba(210, 136, 196, 1) 100%);
+  background-size: cover;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+          font-size: 40px;
+        }

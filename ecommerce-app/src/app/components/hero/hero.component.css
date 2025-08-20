@@ -1,0 +1,105 @@
+h1 {
+  font-family: 'Aileron-Bold';
+
+  margin-top: 0;
+
+
+}
+
+h2 {
+  font-family: 'Aileron-Bold';
+
+  background: #605ED3;
+  background: linear-gradient(90deg, rgba(96, 94, 211, 1) 1%, rgba(210, 136, 196, 1) 24%, rgba(210, 136, 196, 1) 49%, rgba(195, 136, 210, 1) 64%, rgba(179, 136, 210, 1) 81%, rgba(210, 136, 196, 1) 100%);
+  background-size: cover;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+
+
+}
+
+.img-hero img {
+  width: 630px;
+  padding-top: 40px;
+  padding-right: 40px;
+
+}
+
+.textos-imagen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  padding-bottom: 40px;
+
+
+}
+.textos {
+  width: 600px;
+  line-height: 1.5;
+
+}
+
+ .btn-grad {
+   background-image: linear-gradient(to right, #8B5CF6 0%, #DD2476 51%, #EC4899 100%)
+;
+    margin-top: 10px;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    margin-right: 15px;
+
+
+ }
+
+
+.btn-grad:hover {
+            background-position: right center; /* change the direction of the change here */
+            color: #fff;
+            text-decoration: none;
+          }
+
+
+.icono, .texto {
+  display: inline-block;  /* Elementos en línea pero con propiedades de bloque */
+  vertical-align: middle; /* Alineación vertical */
+  margin-right: 4px;
+}
+
+
+.btn-contacto {
+    padding: 12px 30px;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: black;
+  border: #919191 solid 1px;
+  border-radius: 10px;
+  margin-top: 10px;
+
+}
+
+.btn-contacto:hover {
+  border: #605ED3 solid 1px;
+  color: #605ED3;
+}
+
+.botones-hero {
+  display: flex;
+  align-items: center;
+
+}
+
+
+.divisor-gradiente {
+
+background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(212, 196, 237, 1) 17%, rgba(225, 208, 250, 1) 32%, rgba(220, 193, 240, 1) 46%, rgba(177, 149, 240, 1) 61%, rgba(186, 101, 240, 1) 78%, rgba(160, 96, 234, 1) 89%, rgba(122, 70, 219, 1) 100%);
+  width: 100%;
+  height: 10px;
+
+
+}
+

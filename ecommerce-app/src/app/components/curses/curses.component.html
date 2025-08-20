@@ -1,0 +1,201 @@
+<!--suppress ALL -->
+
+
+
+
+<head>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<!-- Botón flotante-->
+
+<button (click)="mostrarCarrito = !mostrarCarrito"
+      id="cartToggle"
+      class="fixed right-4 bottom-4 bg-indigo-600 text-white p-4 rounded-full cart-button z-40 hover:bg-indigo-700 transition-colors"
+    >
+      <i class="fas fa-shopping-cart text-xl"></i>
+      <span
+        class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center"
+        >{{ cartService.items.length }}</span
+      >
+    </button>
+
+<!-- Notificación cuando un producto es agregado al carrito -->
+
+<div [ngClass]="notificacionVisible ? 'fixed top-5 right-5 bg-green-600 text-white px-4 py-2 rounded shadow z-50' : 'hidden'">
+  <i class="fas fa-check-circle"></i> ¡Curso agregado al carrito!
+</div>
+
+
+
+
+<div class="fondo bg-white w-full py-8">
+  <div class="container mx-auto px-6 md:px-6 lg:px-2">
+    <h1 class="text-3xl font-bold mb-2 text-gray-800">Todos los Cursos</h1>
+    <h2 class="text-lg text-gray-600 mb-8">Explora todos nuestros cursos</h2>
+
+
+
+    <!-- Filtros por categoría -->
+    <div class="flex flex-wrap gap-3 mb-8">
+      <button
+        (click)="categoriaSeleccionada = 'Todos'"
+        [class.bg-custom-morado]="categoriaSeleccionada === 'Todos'"
+        [class.text-white]="categoriaSeleccionada === 'Todos'"
+        [class.bg-gray-100]="categoriaSeleccionada !== 'Todos'"
+        [class.text-gray-800]="categoriaSeleccionada !== 'Todos'"
+        class="px-4 py-2 rounded-md shadow-sm  ">
+        Todos
+      </button>
+
+
+
+
+      @for (cat of categoriasUnicas; track cat) {
+        <button
+          (click)="categoriaSeleccionada = cat"
+          [class.bg-custom-morado]="categoriaSeleccionada === cat"
+          [class.text-white]="categoriaSeleccionada === cat"
+          [class.bg-gray-100]="categoriaSeleccionada !== cat"
+          [class.text-gray-800]="categoriaSeleccionada !== cat"
+          class="px-4 py-2 rounded-md  shadow-sm text-gray-700">
+          {{cat}}
+        </button>
+      }
+    </div>
+
+
+
+    @if (productService.datos.length > 0) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        @for (p of productService.filtrarPorCategoria(categoriaSeleccionada); track p) {
+          <div class="group bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col transform hover:-translate-y-1 hover:scale-[1.02] hover:border-custom-morado/30 cursor-pointer">
+
+            <div class="relative overflow-hidden h-48">
+              <!-- Categoría sobre la imagen -->
+              <span class="absolute top-3 left-3 categoria-curso text-white text-xs font-semibold px-3 py-1 rounded-full z-10">
+                {{p.categoria || 'Desarrollo Web'}}
+              </span>
+               <!-- Imagen con efecto de escala suave -->
+    <a href="#" class="block h-full overflow-hidden">
+      <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 "
+           src="{{p.imagen}}" alt="Imagen del curso" />
+    </a>
+  </div>
+
+
+
+            <div class="p-4 flex-grow flex flex-col">
+
+              <a href="#">
+                <h5 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{{p.nombre}}</h5>
+              </a>
+              <p class="text-sm text-gray-600 mb-3 line-clamp-2">{{p.descripcion}}</p>
+
+              <!-- Información adicional -->
+              <div class="flex flex-wrap gap-3 mt-auto mb-3 text-xs text-gray-600">
+                <div class="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                  <span>{{p.alumnos}}+</span>
+                </div>
+
+                <!-- Rating con estrellas -->
+              <div class="flex items-center mb-0">
+                <div class="flex items-center space-x-1 rtl:space-x-reverse">
+                  @for (star of [1,2,3,4,5]; track star) {
+                    @if (star <= p.calificacion) {
+                      <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                      </svg>
+                    } @else {
+                      <svg class="w-4 h-4 text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                      </svg>
+                    }
+                  }
+                </div>
+
+                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded ml-2">{{p.calificacion}}</span>
+              </div>
+
+
+
+         <div class="flex items-center">
+      <div class="flex items-center space-x-1 rtl:space-x-reverse">
+    <!-- Mostrar iconos según el nivel -->
+    @switch(p.nivel) {
+      @case ('Básico') {
+        <img src="/img/level1.svg" alt="Nivel Básico" class="h-4 w-4" />
+      }
+      @case ('Intermedio') {
+        <img src="/img/level2.svg" alt="Nivel Intermedio" class="h-4 w-4" />
+      }
+      @case ('Avanzado') {
+        <img src="/img/level3.svg" alt="Nivel Avanzado" class="h-4 w-4" />
+      }
+    }
+    <span class="ml-1 text-xs">{{p.nivel}}</span>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!--
+                <div class="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                  <span>{{p.nivel}}</span>
+                </div>
+
+
+-->
+
+
+  </div>
+
+
+  <div class="flex items-center justify-between mt-auto pt-3 border-t border-gray-100">
+    <span class="text-xl font-bold text-gray-900">{{p.precio | currency}}</span>
+    <button (click)="agregarAlCarrito(p) "
+
+      class="carrito-boton translate-y-4 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-in-out bg-custom-morado hover:bg-indigo-700 text-white font-medium rounded-lg text-sm px-4 py-2 text-center shadow-sm flex items-center gap-2">
+<i class="fas fa-cart-plus"></i>
+Añadir al Carrito
+</button>
+</div>
+
+
+
+
+
+
+            </div>
+          </div>
+
+            }
+
+
+
+      </div>
+    } @else {
+      <p class="text-center py-12 text-gray-500">No hay cursos disponibles</p>
+    }
+
+    <!-- cursos.component.html -->
+<app-cart [mostrar]="mostrarCarrito" (cerrar)="cerrarCarrito()"></app-cart>
+
+
+  </div>
+</div>
+

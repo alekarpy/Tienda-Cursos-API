@@ -1,0 +1,52 @@
+{
+  "name": "ecommerce",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "deploy": "ng deploy --base-href=/2025-2-ecommerce/",
+    "tailwind:build": "tailwindcss -i src/styles.css -o ./src/tailwind-output.css",
+    "tailwind:watch": "tailwindcss -i src/styles.css -o ./src/tailwind-output.css --watch"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular-devkit/build-angular": "^19.2.8",
+    "@angular/animations": "^19.2.7",
+    "@angular/cdk": "19.2.7",
+    "@angular/common": "19.2.7",
+    "@angular/compiler": "19.2.7",
+    "@angular/core": "19.2.7",
+    "@angular/forms": "19.2.7",
+    "@angular/material": "19.2.7",
+    "@angular/platform-browser": "19.2.7",
+    "@angular/platform-browser-dynamic": "19.2.7",
+    "@angular/router": "19.2.7",
+    "@popperjs/core": "^2.11.8",
+    "@tailwindcss/forms": "^0.5.10",
+    "flowbite": "^1.8.0",
+    "rxjs": "7.8.0",
+    "tslib": "2.3.0",
+    "uikit": "^3.23.6",
+    "uuid": "^11.1.0",
+    "yarn": "^1.22.22",
+    "zone.js": "^0.15.0"
+  },
+  "devDependencies": {
+    "@angular/cli": "19.2.7",
+    "@angular/compiler-cli": "19.2.7",
+    "@types/jasmine": "5.1.0",
+    "autoprefixer": "^10.4.17",
+    "jasmine-core": "5.6.0",
+    "karma": "6.4.0",
+    "karma-chrome-launcher": "3.2.0",
+    "karma-coverage": "2.2.0",
+    "karma-jasmine": "5.1.0",
+    "karma-jasmine-html-reporter": "2.1.0",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.3.3",
+    "typescript": "5.7.2"
+  }
+}

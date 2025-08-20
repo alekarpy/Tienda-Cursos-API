@@ -1,0 +1,46 @@
+
+
+.fondo {
+padding-top: 40px;
+  background-color: white;
+}
+
+
+h1 {
+  margin-left: 2px;
+  font-family: Aileron-Bold;
+}
+
+h2 {
+  padding-left: 5px;
+  padding-bottom: 20px;
+}
+
+.categoria-curso {
+     background-image: linear-gradient(to right, #8B5CF6 0%, #DD2476 51%, #EC4899 100%)
+}
+
+.carrito-boton {
+  background-color: #605ED3;
+}
+
+.carrito-boton:hover {
+  background-color: #d875cb;
+}
+
+
+
+
+/* Botón del carrito */
+.cart-button {
+    background-color: #605ED3;
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.cart-button:hover {
+    background-color: #5553cd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+}

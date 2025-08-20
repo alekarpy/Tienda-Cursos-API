@@ -1,0 +1,175 @@
+<section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+  <form (ngSubmit)="onSubmit()" class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+    <div class="lg:flex lg:gap-8">
+      <!-- Sección izquierda: Información del cliente + Pago -->
+      <div class="lg:w-1/2 space-y-6">
+        <!-- Información del cliente -->
+        <div class="space-y-6">
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Información del cliente</h2>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre *</label>
+              <input type="text" id="nombre" name="nombre"
+                     class="button-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                     required>
+            </div>
+            <div>
+              <label for="apellido" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Apellido *</label>
+              <input type="text" id="apellido" name="apellido"
+                     class="button-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                     required>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Correo electrónico *</label>
+              <input type="email" id="email" name="email"
+                     class="button-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                     required>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="telefono" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Teléfono *</label>
+
+              <input type="tel" id="telefono" [formControl]="phoneControl"
+       class="button-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+       [class.border-red-500]="phoneControl.invalid && phoneControl.touched">
+
+
+@if (phoneControl.invalid && phoneControl.touched) {
+  <div class="text-red-500 text-sm mt-1">
+    @if (phoneControl.errors?.['required']) {
+      <span>Teléfono requerido</span>
+    }
+    @if (phoneControl.errors?.['pattern']) {
+      <span>Solo se permiten números</span>
+    }
+    @if (phoneControl.errors?.['minlength']) {
+      <span>Mínimo 10 dígitos</span>
+    }
+  </div>
+}
+
+
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección de Pago simplificada -->
+        <div class="space-y-6 pt-4">
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Información de Pago</h2>
+
+          <div class="space-y-4">
+            <div>
+              <label for="card-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre en la tarjeta *</label>
+              <input type="text" id="card-name" name="card-name"
+                     class="button-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                     required>
+            </div>
+
+            <div>
+              <label for="card-number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Número de tarjeta *</label>
+              <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456"
+                     class="button-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                     required>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="expiry-date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha de expiración *</label>
+                <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/AA"
+                       class="button-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                       required>
+              </div>
+              <div>
+                <label for="cvv" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CVV *</label>
+                <input type="text" id="cvv" name="cvv" placeholder="123"
+                       class="button-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                       required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón de pago -->
+        <div class="botondePago pt-6">
+          <button type="submit" class="btn-class w-full">
+            <div class="botoneicono flex items-center justify-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 14h.01"/>
+                <path d="M7 7h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14"/>
+              </svg>
+              <span>Proceder al pago</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sección derecha: Resumen del pedido -->
+      <div class="lg:w-1/2 mt-6 lg:mt-0">
+        <div class=" fondo-gris dark:bg-gray-800 p-6 rounded-lg sticky top-4">
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Resumen del Pedido</h2>
+
+          @if (cartService.items.length === 0) {
+            <div class="text-center py-8">
+              <p class="text-gray-500">No hay artículos en tu carrito</p>
+              <a routerLink="/inicio" class="text-purple-800 hover:text-purple-900 mt-2 inline-block">
+                Volver a la tienda
+              </a>
+            </div>
+          }
+
+
+          <div class="space-y-4">
+            @for (item of cartService.items; track item.id) {
+              <div class="flex items-center justify-between border-b pb-4">
+                <div class="flex items-center gap-4">
+                  <div class="images-cursos dark:bg-gray-700 flex items-center justify-center">
+                    <img [src]="item.imagen" class="imagen-src object-cover">
+                  </div>
+                  <div>
+                    <h3 class="font-medium text-gray-900 dark:text-white">{{item.nombre}}</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{item.categoria}}</p>
+
+
+
+                     <!-- Controles de cantidad (mismo estilo que en cart) -->
+      <div class="flex items-center gap-2 mt-2">
+        <button (click)="cartService.decreaseQuantity(item)"
+                class="text-gray-500 hover:text-indigo-600 w-6 h-6 flex items-center justify-center border rounded">
+          <i class="fas fa-minus text-xs"></i>
+        </button>
+        <span class="mx-2">{{item.cantidad}}</span>
+        <button (click)="cartService.increaseQuantity(item)"
+                class="text-gray-500 hover:text-indigo-600 w-6 h-6 flex items-center justify-center border rounded">
+          <i class="fas fa-plus text-xs"></i>
+        </button>
+      </div>
+
+
+
+
+                  </div>
+                </div>
+                <div class="text-right">
+                  <p class="font-medium text-gray-900 dark:text-white">{{item.precio * item.cantidad | currency}}</p>
+                  <button type="button"
+                          (click)="cartService.removeFromCart(item)"
+                          class="text-sm text-red-500 hover:text-red-900">
+                    Eliminar
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- Total -->
+          <div class="mt-2 pt-4   ">
+            <dl class="flex items-center justify-between">
+              <dt class="text-lg font-bold text-gray-900 dark:text-white">Total</dt>
+              <dd class="text-lg font-bold text-gray-900 dark:text-white">{{ cartService.getTotalPrice() | currency }}</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

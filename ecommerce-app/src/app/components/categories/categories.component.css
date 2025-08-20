@@ -1,0 +1,71 @@
+.divisor-gradiente {
+background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(212, 196, 237, 1) 17%, rgba(225, 208, 250, 1) 32%, rgba(220, 193, 240, 1) 46%, rgba(177, 149, 240, 1) 61%, rgba(186, 101, 240, 1) 78%, rgba(160, 96, 234, 1) 89%, rgba(122, 70, 219, 1) 100%);
+  width: 100%;
+  height: 10px;
+}
+
+
+.fondo {
+  background-color: #F3F3FD;
+}
+
+
+
+h1 {
+  margin-left: 2px;
+  font-family: Aileron-Bold;
+}
+
+.contenedor-general {
+  margin-bottom: 80px;
+}
+
+
+.card:hover {
+  transform: scale(1.05);
+  transition: 0.5s;
+}
+
+
+.button-ver-mas {
+  background-color: #6200EA;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+
+}
+
+.button-ver-mas:hover {
+  background-color: #3700B3;
+  transition: background-color 0.3s;
+  transform: scale(1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+
+}
+
+
+
+
+
+.btn-grad {
+  background-image: linear-gradient(to right, #8B5CF6 0%, #DD2476 51%, #EC4899 100%)
+;
+   transition: 0.5s;
+   background-size: 200% auto;
+   color: white;
+   box-shadow: 0 0 20px #eee;
+   border-radius: 10px;
+   padding: 12px 24px
+
+
+}
+
+
+.btn-grad:hover {
+           background-position: right center; /* change the direction of the change here */
+           color: #fff;
+           text-decoration: none;
+         }

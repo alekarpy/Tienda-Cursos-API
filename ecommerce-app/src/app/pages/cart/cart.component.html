@@ -1,0 +1,108 @@
+<body class="bg-gray-50 font-sans">
+  @if (mostrar) {
+    <!-- Overlay (debe estar primero en el DOM) -->
+    <div
+      class="fixed inset-0 z-40 bk"
+      (click)="onOverlayClick()"
+    ></div>
+
+       <!-- Contenedor del modal -->
+    <div class="fixed inset-0 z-50 pointer-events-none">
+       <!-- Panel del carrito (permite clicks solo aquí) -->
+      <div
+        class="h-full w-full max-w-md bg-white shadow-xl ml-auto pointer-events-auto"
+        (click)="$event.stopPropagation()"
+      >
+
+
+        <!-- Header del carrito -->
+        <div class="header-bar p-4 flex justify-between items-center">
+          <h2 class="text-xl font-bold text-white">
+            <i class="fas fa-shopping-cart mr-2"></i> Tu Carrito
+          </h2>
+          <button (click)="cerrar.emit()" id="closeCart" class="text-white hover:text-gray-200">
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+
+        <!-- Contenido del carrito -->
+        <div class="p-4 h-[calc(100%-120px)] overflow-y-auto">
+          @if (productos.length > 0) {
+            <div class="space-y-4">
+              @for (item of productos; track $index) {
+                <div class="flex items-start border-b pb-4">
+                  <img [src]="item.imagen" alt="Imagen" class="w-16 h-16 object-cover rounded-md mr-3" />
+                  <div class="flex-grow">
+                    <h3 class="font-semibold text-gray-800">{{ item.nombre }}</h3>
+                    <p class="text-sm text-gray-600">{{ item.descripcion }}</p>
+                    <div class="flex items-center justify-between mt-1">
+                      <div class="flex items-center gap-2">
+                        <button (click)="carritoService.decreaseQuantity(item)" class="text-gray-500 hover:text-indigo-600 w-6 h-6 flex items-center justify-center border rounded">
+                          <i class="fas fa-minus text-xs"></i>
+                        </button>
+                        <span class="mx-2">{{item.cantidad}}</span>
+                        <button (click)="carritoService.increaseQuantity(item)"  class="text-gray-500 hover:text-indigo-600 w-6 h-6 flex items-center justify-center border rounded">
+                          <i class="fas fa-plus text-xs"></i>
+                        </button>
+                      </div>
+                      <div>
+                        <span class="font-bold text-indigo-600">{{ item.precio | currency }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button (click)="eliminarDelCarrito(item)"
+                    class="text-gray-400 hover:text-red-500 ml-2">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              }
+            </div>
+
+            <!-- Resumen y botones -->
+            <div class="space-y-3 mt-6">
+              <p class="text-gray-600">Total: {{ carritoService.getTotalPrice() | currency }}</p>
+
+
+              <button (click)="finalizarCompra()"  class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-4 rounded-lg font-medium transition-colors button-cart">
+                Finalizar Compra
+              </button>
+
+               <!-- Mensaje de carrito vacío (opcional, se puede usar toast/snackbar en su lugar) -->
+
+
+
+
+              <button (click)="cerrar.emit()" class="closeCart button-cart2 w-full border py-3 px-4 rounded-lg font-medium transition-colors">
+                Seguir Comprando
+              </button>
+            </div>
+          } @else {
+            <div class="lottie">
+
+
+
+              <div class="lottie-text">
+                <p class="texto-vacio">
+                ¡Tu carrito está vacío!
+              </p>
+
+
+                ¿No quieres agregar algún producto?
+
+              </div>
+
+              <img  src="/img/freepik.png" class="lottie-img">
+
+
+
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  } <!-- Cierre del @if -->
+
+
+</body>
+
+

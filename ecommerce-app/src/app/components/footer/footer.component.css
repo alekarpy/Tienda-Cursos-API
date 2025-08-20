@@ -1,0 +1,59 @@
+.footer {
+  background: #605ED3;
+
+
+}
+.container {
+  color: white;
+}
+
+.seccion-uno {
+    width:200px
+}
+
+.logotipos-redes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+    gap: 10px;
+}
+
+.logo {
+    width:180px;
+}
+
+.text-logo {
+    font-size: 17px;
+    text-align: left;
+    line-height: 1.2;
+    margin-bottom:10px;
+    margin-top:10px;
+}
+
+
+.footer-all {
+    display: grid;
+    grid-template: 1fr / 2; /* 4 equal columns */
+}
+
+.enlaces {
+    display: flex;
+    align-items: left;
+    flex-direction: column;
+
+}
+
+.footer-pie {
+  background: #605ED3;
+  background: linear-gradient(90deg, rgba(96, 94, 211, 1) 1%, rgba(210, 136, 196, 1) 24%, rgba(210, 136, 196, 1) 49%, rgba(195, 136, 210, 1) 64%, rgba(179, 136, 210, 1) 81%, rgba(210, 136, 196, 1) 100%);
+  background-size: cover;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+          font-size: 17px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+  padding: 10px;
+box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+
+
+}
