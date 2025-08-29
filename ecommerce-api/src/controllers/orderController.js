@@ -1,85 +1,97 @@
-import Order from '../models/order.js';
+import Order from '../models/Order.js';
+import Cart from '../models/Cart.js';
 
-// Crear una orden
-export async function createOrder(req, res) {
-    try {
-        const { Courses, shippingAddress, paymentMethod, shippingCost, totalPrice } = req.body;
-        const order = new Order({
-            user: req.user._id,
-            Courses,
-            shippingAddress,
-            paymentMethod,
-            shippingCost,
-            totalPrice,
-        });
-        await order.save();
-        res.status(201).json(order);
-    } catch (error) {
-        res.status(500).json({ error });
+// Create new order
+const createOrder = async (req, res, next) => {
+  try {
+    const { paymentMethod, shippingAddress } = req.body;
+    
+    // Get user's cart
+    const cart = await Cart.findOne({ user: req.user.id }).populate('items.product');
+    
+    if (!cart || cart.items.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'No hay artículos en el carrito'
+      });
     }
-}
+    
+    // Create order
+    const order = await Order.create({
+      user: req.user.id,
+      items: cart.items.map(item => ({
+        product: item.product._id,
+        quantity: item.quantity,
+        price: item.price
+      })),
+      total: cart.total,
+      paymentMethod,
+      shippingAddress
+    });
+    
+    // Clear cart
+    cart.items = [];
+    cart.total = 0;
+    await cart.save();
+    
+    res.status(201).json({
+      success: true,
+      data: order
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-// Obtener todas las órdenes del usuario autenticado
-export async function getUserOrders(req, res) {
-    try {
-        const orders = await Order.find({ user: req.user._id })
-            .populate('Courses.courseId')
-            .populate('shippingAddress')
-            .populate('paymentMethod');
-        res.status(200).json(orders);
-    } catch (error) {
-        res.status(500).json({ error });
-    }
-}
+// Get user's orders
+const getUserOrders = async (req, res, next) => {
+  try {
+    const orders = await Order.find({ user: req.user.id })
+      .populate('items.product', 'title instructor')
+      .sort({ createdAt: -1 });
+    
+    res.status(200).json({
+      success: true,
+      count: orders.length,
+      data: orders
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-// Obtener una orden por ID
-export async function getOrderById(req, res) {
-    try {
-        const order = await Order.findById(req.params.id)
-            .populate('Courses.courseId')
-            .populate('shippingAddress')
-            .populate('paymentMethod');
-        if (!order) return res.status(404).json({ message: 'Orden no encontrada' });
-        // Solo el dueño o admin puede ver la orden
-        if (order.user.toString() !== req.user._id && req.user.role !== 'admin') {
-            return res.status(403).json({ message: 'Acceso denegado' });
-        }
-        res.status(200).json(order);
-    } catch (error) {
-        res.status(500).json({ error });
+// Get single order
+const getOrder = async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params.id)
+      .populate('items.product', 'title instructor price');
+    
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: 'Pedido no encontrado'
+      });
     }
-}
+    
+    // Make sure user owns the order or is admin
+    if (order.user.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'No estás autorizado para acceder a esta orden'
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      data: order
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-// Actualizar estado de la orden (solo admin)
-export async function updateOrderStatus(req, res) {
-    try {
-        const { status, paymentStatus } = req.body;
-        const order = await Order.findById(req.params.id);
-        if (!order) return res.status(404).json({ message: 'Orden no encontrada' });
-        // Verificación de rol admin
-        if (req.user.role !== 'admin') {
-            return res.status(403).json({ message: 'Solo admin puede actualizar el estado' });
-        }
-        if (status) order.status = status;
-        if (paymentStatus) order.paymentStatus = paymentStatus;
-        await order.save();
-        res.status(200).json(order);
-    } catch (error) {
-        res.status(500).json({ error });
-    }
-}
-
-// Eliminar una orden (solo admin)
-export async function deleteOrder(req, res) {
-    try {
-        const order = await Order.findById(req.params.id);
-        if (!order) return res.status(404).json({ message: 'Orden no encontrada' });
-        if (req.user.role !== 'admin') {
-            return res.status(403).json({ message: 'Solo admin puede eliminar la orden' });
-        }
-        await order.deleteOne();
-        res.status(200).json({ message: 'Orden eliminada' });
-    } catch (error) {
-        res.status(500).json({ error });
-    }
-}
+export {
+  createOrder,
+  getUserOrders,
+  getOrder
+};

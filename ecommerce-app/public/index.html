@@ -6,7 +6,7 @@
     <title>Welcome to Firebase Hosting</title>
 
     <!-- update the version number as needed -->
-    <script defer src="/__/firebase/11.6.1/firebase-app-compat.js"></script>
+    <script defer src="/__/firebase/11.6.1/firebase-server-compat.js"></script>
     <!-- include only the Firebase features as you need -->
     <script defer src="/__/firebase/11.6.1/firebase-auth-compat.js"></script>
     <script defer src="/__/firebase/11.6.1/firebase-database-compat.js"></script>
@@ -66,7 +66,7 @@
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
 
         try {
-          let app = firebase.app();
+          let server = firebase.server();
           let features = [
             'auth', 
             'database', 
@@ -77,7 +77,7 @@
             'analytics', 
             'remoteConfig',
             'performance',
-          ].filter(feature => typeof app[feature] === 'function');
+          ].filter(feature => typeof server[feature] === 'function');
           loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
         } catch (e) {
           console.error(e);

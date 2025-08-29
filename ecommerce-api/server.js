@@ -1,34 +1,52 @@
 import express from 'express';
-import dotenv from "dotenv";
-import routes from "./src/routes/index.js";
-import dbConnection from "./src/config/database.js";
-import { logger } from './src/middlewares/logger.js';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
 
 
+// Import routes
+import authRoutes from './src/routes/auth.js';
+import productRoutes from './src/routes/products.js';
+import categoryRoutes from './src/routes/categories.js';
+import cartRoutes from './src/routes/cart.js';
+import userRoutes from './src/routes/users.js';
+import orderRoutes from './src/routes/orders.js';
+
+// Import middleware
+import errorHandler from './src/middleware/errorHandler.js';
 
 dotenv.config();
 
-const app = express();
+const server = express();
+const PORT = process.env.PORT || 5000;
 
-app.use(express.json()); // para leer los datos json (send es por default, así que se tiene qué especificar que es json).
-app.use(logger);
+// Middleware
+server.use(cors({
+    origin: '*', // permite todos los orígenes
+    methods: ['GET','POST','PUT','DELETE']
+}));
 
-app.get("/", (req, res) => {
-    res.send("¡Cursos en Línea para Todos 🤓!");
-});
+server.use(express.json());
 
-app.use('/api',routes);
+// Routes
+server.use('/api/auth', authRoutes);
+server.use('/api/products', productRoutes);
+server.use('/api/categories', categoryRoutes);
+server.use('/api/cart', cartRoutes);
+server.use('/api/users', userRoutes);
+server.use('/api/orders', orderRoutes);
 
-//conexión a base de datos
-dbConnection();
+// Error handling middleware
+server.use(errorHandler);
 
-
-app.listen(process.env.PORT, () => {
-    console.log(`Servidor corriendo en el puerto https://localhost:${process.env.PORT}`);
-});
-
-
-
-//se debe agregar conexión a la base de datos y rutas
-
-
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log('Conectado a MongoDB');
+    server.listen(PORT, () => {
+      console.log(`El servidor se está ejecutando en el puerto ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error('Error de conexión de MongoDB:', error);
+  });

@@ -95,7 +95,7 @@ Demostrar el dominio de los conceptos vistos durante el curso mediante la creaci
 
 ```
 src/
-├── app/
+├── server/
 │   ├──components/
 │   │
 │   ├──pages/
@@ -106,7 +106,7 @@ src/
 │   ├── services/
 │   │   ├── cart.service.ts
 │   │   └── product.service.ts
-│   └── app.routes.ts
+│   └── server.routes.ts
 ```
 
 ---
