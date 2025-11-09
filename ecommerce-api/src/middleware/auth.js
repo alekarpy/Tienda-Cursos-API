@@ -1,6 +1,20 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
+import User from '../models/user.js';
 
+// Middleware para verificar el token JWT (versión simple)
+export const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'Token requerido' });
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ error: 'Token inválido' });
+    req.user = user;
+    next();
+  });
+};
+
+// Middleware para verificar el token JWT y cargar el usuario completo (versión completa)
 const protect = async (req, res, next) => {
   try {
     let token;
@@ -43,6 +57,7 @@ const protect = async (req, res, next) => {
   }
 };
 
+// Middleware para verificar roles (acepta múltiples roles como argumentos)
 const authorize = (...roles) => {
   return (req, res, next) => {
     // Verificar que el usuario está autenticado
@@ -62,6 +77,36 @@ const authorize = (...roles) => {
     }
     next();
   };
+};
+
+// Middleware para verificar roles (acepta un array de roles)
+export const verifyRole = (roles) => {
+  return (req, res, next) => {
+    // Verificar que el usuario está autenticado
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Usuario no autenticado'
+      });
+    }
+    
+    // Verificar el rol
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({
+        success: false,
+        message: `El Rol de usuario ${req.user.role} no está autorizado a acceder a esta ruta`
+      });
+    }
+    next();
+  };
+};
+
+// Middleware opcional para verificar rol de admin
+export const isAdmin = (req, res, next) => {
+  if (req.user?.role !== 'admin') {
+    return res.status(403).json({ error: 'Acceso denegado' });
+  }
+  next();
 };
 
 export { protect, authorize };

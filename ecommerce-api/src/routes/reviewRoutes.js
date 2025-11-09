@@ -1,6 +1,6 @@
 // javascript
 import express from "express";
-import { authenticateToken } from '../middlewares/auth.js';
+import { authenticateToken } from '../middleware/auth.js';
 import {
     createReview,
     getCourseReviews,
