@@ -127,13 +127,13 @@
     <!-- Mostrar iconos según el nivel -->
     @switch(p.nivel) {
       @case ('Básico') {
-        <img src="/img/level1.svg" alt="Nivel Básico" class="h-4 w-4" />
+        <img src="assets/img/level1.svg" alt="Nivel Básico" class="h-4 w-4" />
       }
       @case ('Intermedio') {
-        <img src="/img/level2.svg" alt="Nivel Intermedio" class="h-4 w-4" />
+        <img src="assets/img/level2.svg" alt="Nivel Intermedio" class="h-4 w-4" />
       }
       @case ('Avanzado') {
-        <img src="/img/level3.svg" alt="Nivel Avanzado" class="h-4 w-4" />
+        <img src="assets/img/level3.svg" alt="Nivel Avanzado" class="h-4 w-4" />
       }
     }
     <span class="ml-1 text-xs">{{p.nivel}}</span>
@@ -193,7 +193,7 @@ Añadir al Carrito
     }
 
     <!-- cursos.component.html -->
-<server-cart [mostrar]="mostrarCarrito" (cerrar)="cerrarCarrito()"></server-cart>
+<app-cart [mostrar]="mostrarCarrito" (cerrar)="cerrarCarrito()"></app-cart>
 
 
   </div>

@@ -19,7 +19,7 @@ export class ProductService {
         nivel: 'Avanzado',
         calificacion: 4.8,
         categoria: 'Desarrollo Web',
-        imagen: 'img/img6.webp',
+        imagen: 'assets/img/img6.png',
         cantidad: 0,
       },
       {
@@ -32,7 +32,7 @@ export class ProductService {
         nivel: 'Básico',
         calificacion: 5,
         categoria: 'Desarrollo Web',
-        imagen: 'img/img2.webp',
+        imagen: 'assets/img/img2.png',
         cantidad: 0,
       },
 
@@ -46,7 +46,7 @@ export class ProductService {
         nivel: 'Básico',
         calificacion: 2.5,
         categoria: 'Ciencia de Datos',
-        imagen: 'img/img3.webp',
+        imagen: 'assets/img/img3.png',
         cantidad: 0,
       },
 
@@ -60,7 +60,7 @@ export class ProductService {
         nivel: 'Avanzado',
         calificacion: 4.5,
         categoria: 'Desarrollo Web',
-        imagen: 'img/img4.webp',
+        imagen: 'assets/img/img4.png',
         cantidad: 0,
       },
       {
@@ -73,7 +73,7 @@ export class ProductService {
         nivel: 'Intermedio',
         calificacion: 1.5,
         categoria: 'Desarrollo Web',
-        imagen: 'img/img1.webp',
+        imagen: 'assets/img/img1.png',
         cantidad: 0,
       },
 
@@ -87,7 +87,7 @@ export class ProductService {
         nivel: 'Básico',
         calificacion: 5,
         categoria: 'Diseño Gráfico',
-        imagen: 'img/img5.webp',
+        imagen: 'assets/img/img5.png',
         cantidad: 0,
       },
       {
@@ -100,7 +100,7 @@ export class ProductService {
         nivel: 'Avanzado',
         calificacion: 4.3,
         categoria: 'Desarrollo Web',
-        imagen: 'img/img8.webp',
+        imagen: 'assets/img/img8.png',
         cantidad: 0,
       },
 
@@ -114,7 +114,7 @@ export class ProductService {
         nivel: 'Intermedio',
         calificacion: 3.8,
         categoria: 'Marketing',
-        imagen: 'img/img9.webp',
+        imagen: 'assets/img/img9.png',
         cantidad: 0,
       },
 
@@ -128,7 +128,7 @@ export class ProductService {
         nivel: 'Básico',
         calificacion: 5,
         categoria: 'Ciencia de Datos',
-        imagen: 'img/img10.webp',
+        imagen: 'assets/img/img10.png',
         cantidad: 0,
       },
 
@@ -142,7 +142,7 @@ export class ProductService {
         nivel: 'Intermedio',
         calificacion: 4.8,
         categoria: 'Ciencia de Datos',
-        imagen: 'img/img7.webp',
+        imagen: 'assets/img/img7.png',
         cantidad: 0,
       },
 
@@ -156,7 +156,7 @@ export class ProductService {
         nivel: 'Básico',
         calificacion: 2.2,
         categoria: 'Marketing',
-        imagen: 'img/img11.webp',
+        imagen: 'assets/img/img11.png',
         cantidad: 0,
       },
       {
@@ -169,7 +169,7 @@ export class ProductService {
         nivel: 'Intermedio',
         calificacion: 4.9,
         categoria: 'Diseño Gráfico',
-        imagen: 'img/img13.webp',
+        imagen: 'assets/img/img13.png',
         cantidad: 0,
       },
 
@@ -183,7 +183,7 @@ export class ProductService {
         nivel: 'Intermedio',
         calificacion: 3.6,
         categoria: 'Diseño Gráfico',
-        imagen: 'img/img12.webp',
+        imagen: 'assets/img/img12.png',
         cantidad: 0,
       },
     ];

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectángulo_108" data-name="Rectángulo 108" width="70.531" height="59.707" fill="none" stroke="#fff" stroke-width="2"/>
+    </clipPath>
+  </defs>
+  <g id="Grupo_376" data-name="Grupo 376" transform="translate(-304 -3021)">
+    <path id="Trazado_141" data-name="Trazado 141" d="M64,0A64,64,0,1,1,0,64,64,64,0,0,1,64,0Z" transform="translate(304 3021)" fill="#3876db"/>
+    <g id="Grupo_241" data-name="Grupo 241" transform="translate(332.958 3055.158)">
+      <g id="Grupo_240" data-name="Grupo 240" clip-path="url(#clip-path)">
+        <rect id="Rectángulo_106" data-name="Rectángulo 106" width="68.669" height="48.247" rx="2" transform="translate(0.931 0.931)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <rect id="Rectángulo_107" data-name="Rectángulo 107" width="11.975" height="9.598" transform="translate(29.278 49.178)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <line id="Línea_3" data-name="Línea 3" x2="29.829" transform="translate(20.374 58.776)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <line id="Línea_4" data-name="Línea 4" x2="68.608" transform="translate(0.985 40.878)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path id="Trazado_124" data-name="Trazado 124" d="M113.41,41.935l8.041,6.112a.362.362,0,0,1,0,.532l-8.041,6.113" transform="translate(-71.174 -26.318)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path id="Trazado_125" data-name="Trazado 125" d="M62.056,41.1l-8.307,5.746a.361.361,0,0,0-.024.531l7.759,6.467" transform="translate(-33.651 -25.795)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <line id="Línea_5" data-name="Línea 5" x1="6.449" y2="16.926" transform="translate(32.039 13.026)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>

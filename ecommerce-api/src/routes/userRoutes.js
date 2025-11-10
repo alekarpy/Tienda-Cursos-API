@@ -1,8 +1,7 @@
 // javascript
 import express from 'express';
-import { authenticateToken } from '../middlewares/auth.js';
-import { logger } from '../middlewares/logger.js';
-import { verifyRole } from '../middlewares/auth.js';
+import { authenticateToken, verifyRole } from '../middleware/auth.js';
+import { logger } from '../middleware/logger.js';
 import {
     registerUser,
     loginUser,
