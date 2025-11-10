@@ -1,111 +1,85 @@
-
-@import "tailwindcss";
-
-@plugin "flowbite/plugin";
-
-@source "../node_modules/flowbite";
-
+@import "flowbite";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import 'flowbite';
-
-/* Flowbite debe ir después de Tailwind
-@import 'flowbite/dist/flowbite.css';
-*/
-
-
-/* Tailwind */
-
-
-
 
 /* Estilos base */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Dosis', system-ui, -apple-system, sans-serif;
+  font-family: "Dosis", system-ui, -apple-system, sans-serif;
 }
 
 /* Fix para componentes interactivos */
-button, a {
+button,
+a {
   @apply transition-colors duration-200;
 }
 
 /* Fondo general */
 html {
-  background-color: #F3F3FD;
+  background-color: #f3f3fd;
 }
-
-
-
-
-
 
 @font-face {
   font-family: "Aileron-Regular";
-  src: url("./fonts/Aileron-Regular.otf") format("otf");
+  src: url("assets/fonts/Aileron-Regular.otf") format("opentype");
 }
 
 @font-face {
   font-family: "Aileron-Bold";
-  src: url("./fonts/Aileron-Bold.otf") format("otf");
+  src: url("assets/fonts/Aileron-Bold.otf") format("opentype");
 }
 
 @font-face {
   font-family: "Aileron-Black";
-  src: url("./fonts/Aileron-Black.otf") format("otf");
+  src: url("assets/fonts/Aileron-Black.otf") format("opentype");
 }
 
 @font-face {
   font-family: "Aileron-Heavy";
-  src: url("./fonts/Aileron-Heavy.otf") format("otf");
+  src: url("assets/fonts/Aileron-Heavy.otf") format("opentype");
 }
 
 @font-face {
   font-family: "Aileron-Semibold";
-  src: url("./fonts/Aileron-SemiBold.otf") format("otf");
+  src: url("assets/fonts/Aileron-SemiBold.otf") format("opentype");
 }
-
-
 
 :root {
-  --color-primario: #4D4FCE;
-  --color-primario-dark: #3A3CB5;
+  --color-primario: #4d4fce;
+  --color-primario-dark: #3a3cb5;
 }
-
-
 
 /* Tema Morado (default) */
 .tema-morado {
-  --color-primario: #605ED3;
-  --color-primario-dark: #7A78DB;
+  --color-primario: #605ed3;
+  --color-primario-dark: #7a78db;
 }
 
 /* Tema Rosa */
 .tema-rosa {
-  --color-primario: #D288C4;
-  --color-primario-dark: #E6A0D8;
+  --color-primario: #d288c4;
+  --color-primario-dark: #e6a0d8;
 }
-
 
 /* Tema Esmeralda */
 .tema-esmeralda {
-  --color-primario: #10B981;
-  --color-primario-dark: #34D399;
+  --color-primario: #10b981;
+  --color-primario-dark: #34d399;
 }
 
 /* Tema Ámbar */
 .tema-ambar {
-  --color-primario: #F59E0B;
-  --color-primario-dark: #FBBF24;
+  --color-primario: #f59e0b;
+  --color-primario-dark: #fbbf24;
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -117,9 +91,8 @@ html {
   animation: float 3s ease-in-out infinite;
 }
 
-
 .bg-custom-morado {
-  background-color: #605ED3;
+  background-color: #605ed3;
 }
 
 /* Asegura que el carrito esté por encima de todo */
@@ -130,7 +103,6 @@ app-cart {
   right: 0;
 }
 
-
 a {
-  text-decoration: none!important;
+  text-decoration: none !important;
 }

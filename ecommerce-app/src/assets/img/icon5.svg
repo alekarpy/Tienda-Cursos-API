@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="129" viewBox="0 0 128 129">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectángulo_123" data-name="Rectángulo 123" width="72.545" height="57.78" fill="none" stroke="#fff" stroke-width="2"/>
+    </clipPath>
+  </defs>
+  <g id="Grupo_381" data-name="Grupo 381" transform="translate(-1449.5 -3363)">
+    <g id="Grupo_253" data-name="Grupo 253" transform="translate(1449.5 3363)">
+      <ellipse id="Elipse_14" data-name="Elipse 14" cx="64" cy="64.5" rx="64" ry="64.5" fill="#f26868"/>
+    </g>
+    <g id="Grupo_259" data-name="Grupo 259" transform="translate(1477.35 3398.669)">
+      <g id="Grupo_258" data-name="Grupo 258" clip-path="url(#clip-path)">
+        <line id="Línea_22" data-name="Línea 22" x2="68.947" transform="translate(1.471 11.359)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <circle id="Elipse_24" data-name="Elipse 24" cx="0.507" cy="0.507" r="0.507" transform="translate(7.311 5.759)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <circle id="Elipse_25" data-name="Elipse 25" cx="0.507" cy="0.507" r="0.507" transform="translate(12.012 5.759)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <circle id="Elipse_26" data-name="Elipse 26" cx="0.507" cy="0.507" r="0.507" transform="translate(16.713 5.759)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <rect id="Rectángulo_122" data-name="Rectángulo 122" width="70.588" height="55.824" rx="1" transform="translate(0.978 0.978)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path id="Trazado_132" data-name="Trazado 132" d="M116.533,64.327l11.13,8.461a.5.5,0,0,1,0,.736l-11.13,8.461" transform="translate(-70.937 -39.158)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path id="Trazado_133" data-name="Trazado 133" d="M49.438,63.229l-11.5,7.954a.5.5,0,0,0-.033.735l10.74,8.951" transform="translate(-22.986 -38.489)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <line id="Línea_23" data-name="Línea 23" x1="8.927" y2="23.429" transform="translate(31.481 21.583)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>
