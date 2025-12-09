@@ -174,32 +174,32 @@ const products = [
 
 const users = [
   {
-    name: 'Admin User',
+      username: 'admin',
     email: 'admin@example.com',
     password: 'password123',
     role: 'admin'
   },
   {
-    name: 'Karla Medina',
+      unsername: 'karla',
     email: 'karla@example.com',
     password: 'password123',
     role: 'cliente'
   },
   {
-    name: 'Selene Juárez',
+      username: 'selene',
     email: 'selene@example.com',
     password: 'password123',
     role: 'cliente'
   },
   {
-    name: 'Juan Perez',
+      username: 'juanito',
     email: 'juan@example.com',
     password: 'password123',
     role: 'cliente'
   },
   {
-    name: 'Maria Gomez',
-    email: 'maria@example',
+      username:'maria',
+    email: 'maria@example.com',
     password: 'password123',
     role: 'cliente'
   },

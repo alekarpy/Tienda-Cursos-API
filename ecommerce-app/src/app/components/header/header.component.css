@@ -50,10 +50,17 @@ height: 6px;
 
 .aPersonalizada {
   color: #111827;
+  text-decoration: none !important;
+
 }
 
 .aPersonalizada:hover {
   color: #605ED3;
+  transition: 0.5s;
+  transform: scale(1.05);
+  box-shadow: none !important;
+  outline: none !important;
+  text-decoration: none !important;
 }
 
 

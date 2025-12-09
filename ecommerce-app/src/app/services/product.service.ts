@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Datos } from '../../datos';
+import {Datos, DatosPaginados} from '../../datos';
+import { HttpClient } from '@angular/common/http';
+import {firstValueFrom} from "rxjs";
 
 @Injectable({
-  providedIn: 'root',
-})
+  providedIn: 'root'})
 export class ProductService {
   datos: Datos[];
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
     this.datos = [
       {
         id: 1, // Nuevo campo único
@@ -187,6 +188,12 @@ export class ProductService {
         cantidad: 0,
       },
     ];
+  }
+
+  traerProductos(): Promise<DatosPaginados[]> {
+    return firstValueFrom(
+        this.httpClient.get<DatosPaginados[]>('http://localhost:3000/api/products/products/')
+    );
   }
 
   // 1. Obtener todos los datos

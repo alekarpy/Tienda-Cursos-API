@@ -9,7 +9,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Dosis", system-ui, -apple-system, sans-serif;
+  font-family: "Aileron-Regular";
 }
 
 /* Fix para componentes interactivos */
@@ -47,6 +47,48 @@ html {
   font-family: "Aileron-Semibold";
   src: url("assets/fonts/Aileron-SemiBold.otf") format("opentype");
 }
+
+@font-face {
+    font-family: "OpenSans-Regular";
+    src: url("assets/fonts/OpenSans-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "OpenSans-Bold";
+    src: url("assets/fonts/OpenSans-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "OpenSans-ExtraBold";
+    src: url("assets/fonts/OpenSans-ExtraBold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "OpenSans-ExtraBold-Italic";
+    src: url("assets/fonts/OpenSans-ExtraBoldItalic.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "OpenSans-Italic";
+    src: url("assets/fonts/OpenSans-Italic.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "OpenSans-Light";
+    src: url("assets/fonts/OpenSans-Light.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "OpenSans-SemiBold";
+    src: url("assets/fonts/OpenSans-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "OpenSans-Medium";
+    src: url("assets/fonts/OpenSans-Medium.ttf") format("truetype");
+}
+
+
 
 :root {
   --color-primario: #4d4fce;

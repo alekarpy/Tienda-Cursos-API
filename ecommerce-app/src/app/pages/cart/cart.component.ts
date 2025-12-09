@@ -7,6 +7,7 @@ import { Router } from '@angular/router'; // Importa Router
 
 @Component({
   selector: 'app-cart',
+  standalone: true,
   templateUrl: './cart.component.html',
   imports: [
     CurrencyPipe, CommonModule
