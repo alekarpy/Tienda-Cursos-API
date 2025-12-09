@@ -46,7 +46,7 @@ userSchema.pre("save", async function(next) {
     next();
 });
 
-// 🔥 CORREGIR: método correctPassword - solo un parámetro
+// 🔥 CORREGIR: metodo correctPassword - solo un parametro
 userSchema.methods.correctPassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
