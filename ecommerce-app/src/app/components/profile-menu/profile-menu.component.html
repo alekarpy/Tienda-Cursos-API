@@ -1,0 +1,64 @@
+<div class="profile-container">
+    <div class="profile-trigger" (click)="toggleMenu()">
+        <div class="avatar-circle">
+            {{ getInitials() }}
+        </div>
+        <span class="welcome-text">Bienvenido, {{ getDisplayName() }}</span>
+        <svg class="dropdown-arrow" [class.rotated]="isMenuOpen"
+             width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round"
+             stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+    </div>
+
+    <div class="dropdown-menu" [class.show]="isMenuOpen">
+        <!-- Ver Perfil -->
+        <div class="menu-item" (click)="viewProfile()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Ver Perfil
+        </div>
+
+        <!-- Historial de Compras (NUEVO) -->
+        <div class="menu-item" (click)="goToOrderHistory()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                <line x1="1" y1="10" x2="23" y2="10"></line>
+                <path d="M6 16h4"></path>
+                <path d="M6 12h12"></path>
+            </svg>
+            Historial de Compras
+        </div>
+
+        <!-- Carrito (NUEVO) -->
+        <div class="menu-item" (click)="goToCart()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            Carrito
+        </div>
+
+        <!-- Cerrar Sesión -->
+        <div class="menu-item logout" (click)="logout()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            Cerrar Sesión
+        </div>
+    </div>
+</div>

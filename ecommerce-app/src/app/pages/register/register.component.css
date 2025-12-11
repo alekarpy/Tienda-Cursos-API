@@ -1,0 +1,284 @@
+.login-bg {
+    background-image: url('/assets/img/fondoweb.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}
+
+.login-box {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    padding: 20px 40px 20px; /* Reducir padding vertical si es necesario */
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+
+    max-height: 90vh; /* Limitar altura máxima */
+    overflow-y: auto; /* Scroll interno si es necesario */
+    overflow-x: hidden; /* Evitar scroll horizontal */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+
+
+}
+
+.login-box img {
+    width: 200px;
+    margin: 0 auto 2px;
+}
+
+.login-subtitle {
+    font-size: 16px;
+    color: #000;
+    font-family: "OpenSans-SemiBold", Arial, sans-serif;
+    margin-bottom: 21px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+
+.login-label {
+    font-size: 14.5px;
+    color: #333;
+    font-family: "OpenSans-SemiBold", Arial, sans-serif;
+    text-align: left;
+}
+
+.login-input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 15px;
+    border: 2px solid #d0d0ff;
+    border-radius: 8px;
+    background-color: #f5f5ff;
+    color: #333;
+    transition: all 0.25s ease;
+    box-sizing: border-box;
+}
+
+.login-input:hover {
+    border-color: #7c7cff;
+}
+
+.login-input:focus {
+    outline: none;
+    border-color: #4a48ff;
+    box-shadow: 0 0 8px rgba(74, 72, 255, 0.35);
+    background-color: #ffffff;
+}
+
+.login-input:invalid {
+    border-color: #ff6b6b;
+    background-color: #ffecec;
+}
+
+.login-input:disabled {
+    background-color: #eee;
+    border-color: #ccc;
+    cursor: not-allowed;
+    color: #777;
+}
+
+.btn-login {
+    margin-top: 12px;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #4A48CC, #E21ABB);
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(74, 72, 204, 0.4),
+    0 4px 12px rgba(226, 26, 187, 0.3);
+    width: 100%;
+}
+
+.btn-login:hover {
+    box-shadow: 0 6px 18px rgba(74, 72, 204, 0.5),
+    0 6px 18px rgba(226, 26, 187, 0.45);
+    transform: translateY(-2px);
+}
+
+.btn-login:active {
+    transform: translateY(0px);
+    box-shadow: 0 3px 8px rgba(74, 72, 204, 0.35),
+    0 3px 8px rgba(226, 26, 187, 0.25);
+}
+
+.text-register {
+    margin-top: 6px;
+    font-size: 16px;
+    color: #555;
+    text-align: center;
+    font-family: "OpenSans-Regular", Arial, sans-serif;
+    cursor: pointer;
+}
+
+.btn-register {
+    color: #6A40CD;
+    font-family: "OpenSans-Regular", Arial, sans-serif;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.btn-register:hover {
+    color: #E21ABB;
+}
+
+/* fila de términos */
+.terms-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.terms-label {
+    font-size: 13px;
+    color: #555;
+    text-align: left;
+}
+
+.terms-label a {
+    color: #6A40CD;
+    text-decoration: underline;
+}
+
+.terms-label a:hover {
+    color: #E21ABB;
+}
+
+#terms {
+   color: #6A40CD;
+}
+
+#terms:focus {
+        outline: none;
+        box-shadow: none
+}
+
+#terms:hover {
+        color: #E21ABB;
+}
+
+.error-text {
+    color: #e63946;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.success-text {
+    color: #2a9d8f;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+/* FIX: Limitar altura de mensajes de error y evitar que empujen demasiado */
+.error-text, .success-text {
+    min-height: 18px; /* Altura mínima para mantener consistencia */
+    max-height: 36px; /* Altura máxima */
+    overflow: hidden; /* Evitar que crezca demasiado */
+    line-height: 1.2; /* Mejor espaciado */
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+
+/* Contenedor de contraseña */
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-input {
+    padding-right: 45px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #7c7cff;
+    padding: 6px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+
+.password-toggle:hover {
+    background-color: #e8e8ff;
+    color: #4a48ff;
+}
+
+.password-toggle:focus {
+    outline: 2px solid #4a48ff;
+    outline-offset: 2px;
+}
+
+.password-toggle:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+/* Estados del botón login */
+.btn-login:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(74, 72, 204, 0.4),
+    0 4px 12px rgba(226, 26, 187, 0.3) !important;
+}
+
+.btn-login:disabled:hover {
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(74, 72, 204, 0.4),
+    0 4px 12px rgba(226, 26, 187, 0.3) !important;
+}
+
+/* Ajuste de espaciado en el formulario */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Reducido para mensajes de error */
+}
+
+/* Mantener todos los estilos existentes y agregar los nuevos */
+
+
+/* FIX: Scroll ultra minimalista */
+.login-box::-webkit-scrollbar {
+    width: 4px; /* Muy delgado */
+}
+
+.login-box::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.login-box::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1); /* Gris muy claro */
+    border-radius: 2px;
+}
+
+.login-box::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.2);
+}

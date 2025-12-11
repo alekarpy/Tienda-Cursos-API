@@ -174,19 +174,19 @@ const products = [
 
 const users = [
   {
-      username: 'admin',
+      username: 'administrador',
     email: 'admin@example.com',
     password: 'password123',
     role: 'admin'
   },
   {
-      unsername: 'karla',
+      unsername: 'karla123',
     email: 'karla@example.com',
     password: 'password123',
     role: 'cliente'
   },
   {
-      username: 'selene',
+      username: 'selene123',
     email: 'selene@example.com',
     password: 'password123',
     role: 'cliente'
@@ -198,7 +198,7 @@ const users = [
     role: 'cliente'
   },
   {
-      username:'maria',
+      username:'marialopez',
     email: 'maria@example.com',
     password: 'password123',
     role: 'cliente'

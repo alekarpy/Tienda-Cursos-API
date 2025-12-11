@@ -1,9 +1,11 @@
 import { Component, Input, Output, EventEmitter, ElementRef, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { CarritoService } from '../../services/cart.service';
+import { CartStateService } from '../../services/cart-state.service';
 import { Datos } from '../../../datos';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router'; // Importa Router
+import { Router } from '@angular/router';
+import { CartSummaryState, CartUIState } from '../../models/cart-state.models';
 
 @Component({
   selector: 'app-cart',
@@ -20,21 +22,45 @@ export class CartComponent implements OnInit, OnDestroy {
 
   @Input() cantidad: number = 0;
 
-
-
   productos: Datos[] = [];
+  summaryState: CartSummaryState | null = null;
+  uiState: CartUIState | null = null;
   private subscripcion: Subscription = new Subscription();
 
   constructor(
     public carritoService: CarritoService,
+    private cartStateService: CartStateService,
     private elRef: ElementRef,
-    private router: Router // Inyecta Router
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.subscripcion = this.carritoService.cartUpdated$.subscribe(items => {
-      this.productos = items;
-    });
+    // Suscribirse al estado del carrito (método legacy)
+    this.subscripcion.add(
+      this.carritoService.cartUpdated$.subscribe(items => {
+        this.productos = items;
+      })
+    );
+
+    // Suscribirse a los nuevos estados
+    this.subscripcion.add(
+      this.cartStateService.cartSummaryState$.subscribe(summary => {
+        this.summaryState = summary;
+      })
+    );
+
+    this.subscripcion.add(
+      this.cartStateService.cartUIState$.subscribe(ui => {
+        this.uiState = ui;
+        // Sincronizar el estado de apertura del carrito
+        if (this.mostrar !== ui.isOpen) {
+          this.cartStateService.setOpen(this.mostrar);
+        }
+      })
+    );
+
+    // Sincronizar el estado inicial
+    this.cartStateService.setOpen(this.mostrar);
   }
 
   ngOnDestroy() {
@@ -45,11 +71,13 @@ export class CartComponent implements OnInit, OnDestroy {
   onClickFuera(event: MouseEvent) {
     if (this.mostrar && !this.elRef.nativeElement.contains(event.target)) {
       this.cerrar.emit();
+      this.cartStateService.setOpen(false);
     }
   }
 
   get total() {
-    return this.carritoService.getTotalPrice();
+    // Usar el resumen del estado si está disponible
+    return this.summaryState?.total ?? this.carritoService.getTotalPrice();
   }
 
   eliminarDelCarrito(producto: Datos) {
@@ -59,6 +87,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   onOverlayClick() {
     this.cerrar.emit();
+    this.cartStateService.setOpen(false);
   }
 
   // Método para finalizar compra
@@ -70,12 +99,22 @@ export class CartComponent implements OnInit, OnDestroy {
 
     // Cierra el carrito
     this.cerrar.emit();
+    this.cartStateService.setOpen(false);
 
     // Navega al checkout
     this.router.navigate(['/checkout']);
-
-    //  limpiar el carrito  si es necesario
-    // this.carritoService.clearCart();
   }
 
+  // Métodos adicionales usando los nuevos estados
+  get isLoading(): boolean {
+    return this.uiState?.isLoading ?? false;
   }
+
+  get hasError(): boolean {
+    return !!this.uiState?.error;
+  }
+
+  get errorMessage(): string | null {
+    return this.uiState?.error ?? null;
+  }
+}

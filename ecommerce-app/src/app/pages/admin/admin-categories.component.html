@@ -1,0 +1,42 @@
+<div class="admin-categories">
+    <div class="header">
+        <button (click)="goBack()" class="btn-back">← Volver</button>
+        <h1>Gestión de Categorías</h1>
+        <button (click)="createCategory()" class="btn-create">+ Nueva Categoría</button>
+    </div>
+
+    <div *ngIf="loading" class="loading">
+        <p>Cargando categorías...</p>
+    </div>
+
+    <div *ngIf="error" class="error">
+        <p>{{ error }}</p>
+    </div>
+
+    <div *ngIf="!loading && !error" class="content">
+        <div class="stats">
+            <p>Total de categorías: {{ categories.length }}</p>
+        </div>
+
+        <div class="categories-grid">
+            <div *ngFor="let category of categories" class="category-card">
+                <div class="category-info">
+                    <h3>{{ category.name }}</h3>
+                    <p>{{ category.description }}</p>
+                    <div *ngIf="category.imageURL" class="category-image">
+                        <img [src]="category.imageURL" [alt]="category.name">
+                    </div>
+                </div>
+                <div class="category-actions">
+                    <button (click)="editCategory(category._id!)" class="btn-edit">Editar</button>
+                    <button (click)="deleteCategory(category._id!)" class="btn-delete">Eliminar</button>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="categories.length === 0" class="empty">
+            <p>No hay categorías. Crea tu primera categoría.</p>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,28 @@
+<div class="admin-dashboard">
+    <div class="dashboard-header">
+        <h1>Panel de Administración</h1>
+        <div class="user-info">
+            <span>Bienvenido, {{ currentUser?.username || currentUser?.email }}</span>
+            <button (click)="logout()" class="btn-logout">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="admin-cards">
+            <div class="admin-card" (click)="navigateToProducts()">
+                <div class="card-icon">📦</div>
+                <h2>Gestionar Productos</h2>
+                <p>Crear, editar y eliminar productos (cursos)</p>
+                <button class="btn-primary">Ir a Productos</button>
+            </div>
+
+            <div class="admin-card" (click)="navigateToCategories()">
+                <div class="card-icon">📁</div>
+                <h2>Gestionar Categorías</h2>
+                <p>Crear, editar y eliminar categorías</p>
+                <button class="btn-primary">Ir a Categorías</button>
+            </div>
+        </div>
+    </div>
+</div>
+

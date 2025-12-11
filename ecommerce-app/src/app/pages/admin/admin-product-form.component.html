@@ -1,0 +1,159 @@
+<div class="admin-product-form">
+    <div class="header">
+        <button (click)="goBack()" class="btn-back">← Volver</button>
+        <h1>{{ isEditMode ? 'Editar Producto' : 'Nuevo Producto' }}</h1>
+    </div>
+
+    <div *ngIf="loading && !productForm.value.title" class="loading">
+        <p>Cargando...</p>
+    </div>
+
+    <div *ngIf="error" class="error">
+        <p>{{ error }}</p>
+    </div>
+
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="form">
+        <div class="form-group">
+            <label for="title">Título *</label>
+            <input 
+                type="text" 
+                id="title" 
+                formControlName="title" 
+                class="form-control"
+                [class.invalid]="productForm.get('title')?.invalid && productForm.get('title')?.touched">
+            <div *ngIf="productForm.get('title')?.invalid && productForm.get('title')?.touched" class="error-message">
+                El título es requerido y debe tener al menos 3 caracteres
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Descripción *</label>
+            <textarea 
+                id="description" 
+                formControlName="description" 
+                rows="4"
+                class="form-control"
+                [class.invalid]="productForm.get('description')?.invalid && productForm.get('description')?.touched"></textarea>
+            <div *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched" class="error-message">
+                La descripción es requerida y debe tener al menos 10 caracteres
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="price">Precio *</label>
+                <input 
+                    type="number" 
+                    id="price" 
+                    formControlName="price" 
+                    min="0"
+                    step="0.01"
+                    class="form-control"
+                    [class.invalid]="productForm.get('price')?.invalid && productForm.get('price')?.touched">
+                <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched" class="error-message">
+                    El precio es requerido y debe ser mayor o igual a 0
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="duration">Duración (horas) *</label>
+                <input 
+                    type="number" 
+                    id="duration" 
+                    formControlName="duration" 
+                    min="1"
+                    class="form-control"
+                    [class.invalid]="productForm.get('duration')?.invalid && productForm.get('duration')?.touched">
+                <div *ngIf="productForm.get('duration')?.invalid && productForm.get('duration')?.touched" class="error-message">
+                    La duración es requerida y debe ser mayor a 0
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="category">Categoría *</label>
+                <select 
+                    id="category" 
+                    formControlName="category"
+                    class="form-control"
+                    [class.invalid]="productForm.get('category')?.invalid && productForm.get('category')?.touched">
+                    <option value="">Selecciona una categoría</option>
+                    <option *ngFor="let cat of categories" [value]="cat._id">
+                        {{ cat.name }}
+                    </option>
+                </select>
+                <div *ngIf="productForm.get('category')?.invalid && productForm.get('category')?.touched" class="error-message">
+                    La categoría es requerida
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="level">Nivel *</label>
+                <select 
+                    id="level" 
+                    formControlName="level"
+                    class="form-control"
+                    [class.invalid]="productForm.get('level')?.invalid && productForm.get('level')?.touched">
+                    <option value="principiante">Principiante</option>
+                    <option value="intermedio">Intermedio</option>
+                    <option value="avanzado">Avanzado</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="instructor">Instructor</label>
+            <input 
+                type="text" 
+                id="instructor" 
+                formControlName="instructor" 
+                class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="image">URL de Imagen</label>
+            <input 
+                type="url" 
+                id="image" 
+                formControlName="image" 
+                class="form-control"
+                placeholder="https://ejemplo.com/imagen.jpg">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="students">Estudiantes</label>
+                <input 
+                    type="number" 
+                    id="students" 
+                    formControlName="students" 
+                    min="0"
+                    class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="rating">Calificación (0-5)</label>
+                <input 
+                    type="number" 
+                    id="rating" 
+                    formControlName="rating" 
+                    min="0"
+                    max="5"
+                    step="0.1"
+                    class="form-control">
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" (click)="goBack()" class="btn-cancel">Cancelar</button>
+            <button 
+                type="submit" 
+                [disabled]="productForm.invalid || loading"
+                class="btn-submit">
+                {{ loading ? 'Guardando...' : (isEditMode ? 'Actualizar' : 'Crear') }}
+            </button>
+        </div>
+    </form>
+</div>
+

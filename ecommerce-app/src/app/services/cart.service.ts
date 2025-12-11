@@ -1,120 +1,149 @@
-import {Injectable, Input} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Datos } from '../../datos';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CartStateService } from './cart-state.service';
 
+/**
+ * CarritoService - Facade/Adapter que mantiene compatibilidad con código existente
+ * Internamente usa CartStateService para manejar el estado con 3 entidades separadas
+ */
 @Injectable({
     providedIn: 'root'
 })
 export class CarritoService {
-    public items: Datos[] = [];
-    public cartUpdated = new BehaviorSubject<Datos[]>(this.items);
-    cartUpdated$ = this.cartUpdated.asObservable();
+    // Mantener compatibilidad con código existente
+    public cartUpdated = new BehaviorSubject<Datos[]>([]);
+    public cartUpdated$!: Observable<Datos[]>;
 
     public cantidad: number = 0;
     public productoExistente: boolean = false;
 
-    constructor() {
-        console.log('🛒 CarritoService inicializado');
-        this.cargarDesdeLocalStorage();
+    constructor(private cartStateService: CartStateService) {
+        console.log('🛒 [CarritoService] Inicializando servicio (Facade/Adapter)...');
+        console.log('🛒 [CarritoService] ✅ Usando BehaviorSubject + RxJS (NO NgRx)');
+        
+        // Inicializar cartUpdated$ después de que cartStateService esté disponible
+        this.cartUpdated$ = this.cartStateService.cartState$.pipe(
+            map(state => {
+                console.log('🔄 [CarritoService] CartState cambió → Transformando a items para compatibilidad legacy');
+                return state.items;
+            })
+        );
+        
+        // Sincronizar el BehaviorSubject legacy con el nuevo estado
+        this.cartStateService.cartState$.subscribe(state => {
+            console.log('🔄 [CarritoService] Sincronizando estado legacy con nuevo estado');
+            this.items = state.items;
+            this.cantidad = state.totalItems;
+            this.cartUpdated.next([...state.items]);
+            console.log('🔄 [CarritoService] ✅ Estado legacy actualizado → Todos los componentes legacy recibirán el cambio');
+        });
+        
+        console.log('🛒 [CarritoService] ✅ Servicio inicializado correctamente');
     }
 
-    // Metodo modificado para evitar duplicados
+    // Propiedad items para compatibilidad (sincronizada desde CartStateService)
+    public get items(): Datos[] {
+        return this.cartStateService.currentCartState.items;
+    }
+
+    public set items(value: Datos[]) {
+        // Esta propiedad es de solo lectura desde el estado, pero mantenemos el setter para compatibilidad
+        console.warn('⚠️ items es de solo lectura. Use los métodos del servicio para modificar el carrito.');
+    }
+
+    // Método modificado para evitar duplicados - ahora usa CartStateService
     addToCart(product: Datos): void {
         console.log('🛒 === AGREGANDO AL CARRITO ===');
         console.log('🛒 Producto recibido:', product);
-        console.log('🛒 Items antes de agregar:', this.items);
-
-        const existingProduct = this.items.find(item => item.id === product.id);
-
-        if (existingProduct) {
-            existingProduct.cantidad += 1;
-            console.log('🛒 Producto existente, cantidad aumentada:', existingProduct);
-        } else {
-            this.items.push({...product, cantidad: 1});
-            console.log('🛒 Nuevo producto agregado:', product);
-        }
-
-        console.log('🛒 Items después de agregar:', this.items);
-        this.actualizarCarrito();
+        this.cartStateService.addItem(product);
     }
 
     removeFromCart(product: Datos): void {
         console.log('🛒 Eliminando producto:', product);
-        const index = this.items.findIndex(p => p.id === product.id);
-        if (index > -1) {
-            this.items.splice(index, 1);
-            this.actualizarCarrito();
-        }
+        this.cartStateService.removeItem(product.id);
     }
 
-    // Métodos para manejar cantidades
+    // Métodos para manejar cantidades - ahora usan CartStateService
     increaseQuantity(product: Datos): void {
         console.log('🛒 Aumentando cantidad:', product);
-        const item = this.items.find(p => p.id === product.id);
-        if (item) {
-            item.cantidad++;
-            this.actualizarCarrito();
-        }
+        this.cartStateService.increaseQuantity(product.id);
     }
 
     decreaseQuantity(product: Datos): void {
         console.log('🛒 Disminuyendo cantidad:', product);
-        const item = this.items.find(p => p.id === product.id);
-        if (item) {
-            if (item.cantidad > 1) {
-                item.cantidad--;
-            } else {
-                this.removeFromCart(product);
-                return;
-            }
-            this.actualizarCarrito();
-        }
+        this.cartStateService.decreaseQuantity(product.id);
     }
 
     clearCart(): void {
         console.log('🛒 Limpiando carrito');
-        this.items = [];
-        this.actualizarCarrito();
+        this.cartStateService.clearCart();
     }
 
     getTotalPrice(): number {
-        const total = this.items.reduce((total, item) => total + (item.precio * item.cantidad), 0);
+        const total = this.cartStateService.currentSummaryState.total;
         console.log('🛒 Calculando total:', total);
         return total;
     }
 
     get cartItems(): Datos[] {
-        console.log('🛒 Obteniendo cartItems:', this.items);
-        return [...this.items];
+        const items = this.cartStateService.currentCartState.items;
+        console.log('🛒 Obteniendo cartItems:', items);
+        return [...items];
     }
 
+    // Métodos legacy mantenidos para compatibilidad
     public actualizarCarrito() {
         console.log('🔄 === ACTUALIZANDO CARRITO ===');
-        console.log('🔄 Items a enviar:', this.items);
-        this.cartUpdated.next([...this.items]);
-        this.guardarEnLocalStorage();
+        // Ya no es necesario, el estado se actualiza automáticamente
+        // Mantenemos el método para no romper código existente
     }
 
     public guardarEnLocalStorage() {
-        console.log('💾 Guardando en localStorage:', this.items);
-        localStorage.setItem('carrito', JSON.stringify(this.items));
-
-        // Verificar que se guardó correctamente
-        const verificar = localStorage.getItem('carrito');
-        console.log('💾 Verificación localStorage:', verificar);
+        console.log('💾 Guardando en localStorage (manejado por CartStateService)');
+        // Ya no es necesario, CartStateService maneja esto automáticamente
     }
 
     public cargarDesdeLocalStorage() {
         console.log('📂 === CARGANDO DESDE LOCALSTORAGE ===');
-        const datosGuardados = localStorage.getItem('carrito');
-        console.log('📂 Datos en localStorage:', datosGuardados);
+        // Ya no es necesario, CartStateService maneja esto en el constructor
+    }
 
-        if (datosGuardados) {
-            this.items = JSON.parse(datosGuardados);
-            console.log('📂 Carrito cargado exitosamente:', this.items);
-            this.cartUpdated.next([...this.items]);
-        } else {
-            console.log('📂 No hay datos en localStorage, carrito vacío');
-        }
+    // ========== Nuevos métodos para acceder a los estados avanzados ==========
+    
+    /**
+     * Obtiene el estado completo del carrito (CartState)
+     */
+    getCartState$(): Observable<import('../models/cart-state.models').CartState> {
+        return this.cartStateService.cartState$;
+    }
+
+    /**
+     * Obtiene el estado de la UI (CartUIState)
+     */
+    getUIState$(): Observable<import('../models/cart-state.models').CartUIState> {
+        return this.cartStateService.cartUIState$;
+    }
+
+    /**
+     * Obtiene el resumen del carrito (CartSummaryState)
+     */
+    getSummaryState$(): Observable<import('../models/cart-state.models').CartSummaryState> {
+        return this.cartStateService.cartSummaryState$;
+    }
+
+    /**
+     * Obtiene el estado combinado (todos los estados juntos)
+     */
+    getCombinedState$(): Observable<import('../models/cart-state.models').CombinedCartState> {
+        return this.cartStateService.combinedState$;
+    }
+
+    /**
+     * Controla si el carrito está abierto/cerrado
+     */
+    setCartOpen(isOpen: boolean): void {
+        this.cartStateService.setOpen(isOpen);
     }
 }
