@@ -1,0 +1,139 @@
+<div class="cart-page">
+    <div class="cart-header">
+        <button class="back-btn" (click)="goBack()">
+
+            <div style="display: flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-chevron-left-icon lucide-chevron-left mr-1"><path d="m15 18-6-6 6-6"/></svg>
+            Volver
+            </div>
+        </button>
+
+
+
+        <h1>Mi Carrito</h1>
+        <button class="clear-btn"   (click)="clearCart()" *ngIf="cartItems.length > 0 "  >
+            <div style="display: flex">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="lucide lucide-trash-icon lucide-trash mr-3"><path
+                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+
+            Limpiar Carrito
+            </div>
+        </button>
+    </div>
+
+    <div class="cart-content">
+        <!-- Carrito vacío -->
+        <div *ngIf="cartItems.length === 0" class="empty-cart">
+            <div class="empty-icon">🛒</div>
+            <h2>Tu carrito está vacío</h2>
+            <p>¡Explora nuestros cursos y encuentra algo increíble para aprender!</p>
+            <button class="explore-btn" (click)="goToCourses()">
+                Explorar Cursos
+            </button>
+        </div>
+
+        <!-- Carrito con items -->
+        <div *ngIf="cartItems.length > 0" class="cart-with-items">
+            <div class="cart-items-list">
+                <div class="cart-item" *ngFor="let item of cartItems">
+                    <div class="item-image">
+                        <img [src]="item.imagen" [alt]="item.nombre" class="product-img">
+                    </div>
+
+                    <div class="item-details">
+                        <h3 class="item-title">{{ item.nombre }}</h3>
+                        <p class="item-description">{{ item.descripcion }}</p>
+                        <div class="item-meta">
+                            <span class="item-level">{{ item.nivel }}</span>
+                            <span class="item-rating">⭐ {{ item.calificacion }}</span>
+                            <span class="item-category">{{ item.categoria }}</span>
+                        </div>
+                    </div>
+
+                    <div class="item-controls">
+                        <div class="quantity-section">
+                            <div class="quantity-controls">
+                                <button (click)="decreaseQuantity(item)" class="qty-btn">-</button>
+                                <span class="quantity">{{ item.cantidad }}</span>
+                                <button (click)="increaseQuantity(item)" class="qty-btn">+</button>
+                            </div>
+
+                            <div class="price-section">
+                                <div class="item-price">${{ item.precio | number:'1.2-2' }} c/u</div>
+                                <div class="item-total">
+                                    Total: ${{ (item.precio * item.cantidad) | number:'1.2-2' }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <button (click)="removeItem(item)" class="remove-btn">
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-summary">
+                <div class="summary-card">
+                    <h3>Resumen del Pedido</h3>
+
+                    <div class="summary-row">
+                        <span>Subtotal ({{
+                                getTotalItems() }} {{ getTotalItems() === 1 ? 'curso' : 'cursos' }}):</span>
+                        <span>${{ getSubtotal() | number:'1.2-2' }}</span>
+                    </div>
+
+                    <div class="summary-row" *ngIf="getTax() > 0">
+                        <span>Impuestos (16%):</span>
+                        <span>${{ getTax() | number:'1.2-2' }}</span>
+                    </div>
+
+                    <div class="summary-row" *ngIf="getShipping() > 0">
+                        <span>Envío:</span>
+                        <span>${{ getShipping() | number:'1.2-2' }}</span>
+                    </div>
+                    <div class="summary-row" *ngIf="getShipping() === 0 && summaryState">
+                        <span>Envío:</span>
+                        <span class="text-green-600">¡Gratis!</span>
+                    </div>
+
+                    <div class="summary-row discount" *ngIf="getDiscount() > 0">
+                        <span>Descuento:</span>
+                        <span class="text-green-600">-${{ getDiscount() | number:'1.2-2' }}</span>
+                    </div>
+                    <div class="summary-row discount" *ngIf="getDiscount() === 0">
+                        <span>Descuento:</span>
+                        <span>$0.00</span>
+                    </div>
+
+                    <div class="summary-row total">
+                        <span><strong>Total:</strong></span>
+                        <span><strong>${{ getCartTotal() | number:'1.2-2' }}</strong></span>
+                    </div>
+
+                    <!-- Mensaje de error si existe -->
+                    <div *ngIf="hasError()" class="error-message mt-2 p-2 bg-red-100 text-red-700 rounded">
+                        {{ getError() }}
+                    </div>
+
+                    <!-- Indicador de carga -->
+                    <div *ngIf="isLoading()" class="loading-indicator mt-2 text-gray-500 text-sm">
+                        Procesando...
+                    </div>
+
+                    <button class="checkout-btn" (click)="proceedToCheckout()">
+                        🎯 Proceder al Checkout
+                    </button>
+
+                    <button class="continue-shopping" (click)="goToCourses()">
+                        ← Seguir Comprando
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

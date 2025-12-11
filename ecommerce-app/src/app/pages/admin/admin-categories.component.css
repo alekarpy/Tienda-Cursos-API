@@ -1,0 +1,157 @@
+.admin-categories {
+    min-height: 100vh;
+    background: #f5f5f5;
+    padding: 2rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+    margin: 0;
+    color: #333;
+}
+
+.btn-back, .btn-create {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-back {
+    background: #6b7280;
+    color: white;
+}
+
+.btn-back:hover {
+    background: #4b5563;
+}
+
+.btn-create {
+    background: #10b981;
+    color: white;
+}
+
+.btn-create:hover {
+    background: #059669;
+}
+
+.loading, .error {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stats {
+    margin-bottom: 1.5rem;
+    color: #666;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.category-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+}
+
+.category-card:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.category-info h3 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1.25rem;
+}
+
+.category-info p {
+    margin: 0 0 1rem 0;
+    color: #666;
+    line-height: 1.5;
+}
+
+.category-image {
+    margin: 1rem 0;
+}
+
+.category-image img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.category-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.btn-edit, .btn-delete {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.3s;
+}
+
+.btn-edit {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-edit:hover {
+    background: #2563eb;
+}
+
+.btn-delete {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #dc2626;
+}
+
+.empty {
+    text-align: center;
+    padding: 3rem;
+    color: #6b7280;
+}
+

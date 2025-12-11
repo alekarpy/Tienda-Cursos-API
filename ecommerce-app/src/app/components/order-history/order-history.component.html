@@ -1,0 +1,141 @@
+<div class="order-history-page">
+    <div class="page-header">
+        <button class="back-btn" (click)="goBack()">
+
+            <div style="display: flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-chevron-left-icon lucide-chevron-left mr-1"><path d="m15 18-6-6 6-6"/></svg>
+            Volver al Perfil
+            </div>
+        </button>
+
+
+
+        <h1>Historial de Compras</h1>
+        <div class="header-stats" *ngIf="allOrders.length > 0">
+            <span class="stat">{{ allOrders.length }} {{ allOrders.length === 1 ? 'compra' : 'compras' }}</span>
+        </div>
+    </div>
+
+    <div class="page-content">
+        <!-- Sin órdenes -->
+        <div *ngIf="allOrders.length === 0" class="empty-orders">
+            <div class="empty-icon">📦</div>
+            <h2>Aún no tienes compras</h2>
+            <p>¡Tu historial de compras aparecerá aquí cuando realices tu primera orden!</p>
+            <button class="explore-btn" (click)="goToCourses()">
+                Explorar Cursos
+            </button>
+        </div>
+
+        <!-- Con órdenes -->
+        <div *ngIf="allOrders.length > 0" class="orders-container">
+            <!-- Filtros y estadísticas -->
+            <div class="orders-header">
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-number">{{ getTotalCourses() }}</div>
+                        <div class="stat-label">Cursos Comprados</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${{ getTotalSpent() | number:'1.2-2' }}</div>
+                        <div class="stat-label">Total Gastado</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">{{ getUniqueMonths() }}</div>
+                        <div class="stat-label">Meses de Actividad</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de órdenes -->
+            <div class="orders-list">
+                <div class="order-card" *ngFor="let order of allOrders" [class]="getStatusClass(order.status)">
+                    <div class="order-header">
+                        <div class="order-info">
+                            <h3 class="order-number">Orden #{{ order.id }}</h3>
+                            <div class="order-meta">
+                                <span class="order-date"> 📅 {{ formatDate(order.date) }}</span>
+                                <span class="order-status" [class]="'status-' + order.status">
+                                    {{ getStatusText(order.status) }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="order-total">
+                            <span class="total-amount">${{ order.total | number:'1.2-2' }}</span>
+                            <button class="order-details-btn" (click)="toggleOrderDetails(order)">
+                                {{ order.showDetails ? '▲ Ocultar' : '▼ Ver Detalles' }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Detalles expandibles -->
+                    <div class="order-details" *ngIf="order.showDetails">
+                        <div class="order-items">
+                            <h4>Productos en esta orden:</h4>
+                            <div class="items-list">
+                                <div class="order-item" *ngFor="let item of order.items">
+                                    <div class="item-image">
+                                        <img [src]="item.imagen" [alt]="item.nombre" class="product-img">
+                                    </div>
+                                    <div class="item-info">
+                                        <div class="item-name">{{ item.nombre }}</div>
+                                        <div class="item-meta">
+                                            <span class="item-price">${{ item.precio | number:'1.2-2' }}</span>
+                                            <span class="item-quantity">Cantidad: {{ item.cantidad || 1 }}</span>
+                                            <span class="item-category">{{ item.categoria }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="item-total">
+                                        ${{ (item.precio * (item.cantidad || 1)) | number:'1.2-2' }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-summary">
+                            <div class="summary-row">
+                                <span>Subtotal:</span>
+                                <span>${{ order.total | number:'1.2-2' }}</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Descuento:</span>
+                                <span>$0.00</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span><strong>Total:</strong></span>
+                                <span><strong>${{ order.total | number:'1.2-2' }}</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumen final -->
+            <div class="history-summary" *ngIf="allOrders.length > 0">
+                <div class="summary-card">
+                    <h3>Resumen General</h3>
+                    <div class="summary-content">
+                        <div class="summary-item">
+                            <span>Total de Órdenes:</span>
+                            <span>{{ allOrders.length }}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Total de Cursos:</span>
+                            <span>{{ getTotalCourses() }}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Gasto Total:</span>
+                            <span>${{ getTotalSpent() | number:'1.2-2' }}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Primera Compra:</span>
+                            <span>{{ getFirstPurchaseDate() }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,11 +5,12 @@ import {HeroComponent} from "../../components/hero/hero.component";
 
 @Component({
   selector: 'app-inicio',
-    imports: [
-        CategoriesComponent,
-        CursesComponent,
-        HeroComponent
-    ],
+  standalone: true,
+  imports: [
+    CategoriesComponent,
+    CursesComponent,
+    HeroComponent
+  ],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.css'
 })

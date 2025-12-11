@@ -1,0 +1,469 @@
+.order-history-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.page-header h1 {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 2.2rem;
+}
+
+.back-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.back-btn:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+}
+
+.header-stats .stat {
+    background: #6A40CD;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Sin órdenes */
+.empty-orders {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    margin-top: 2rem;
+}
+
+.empty-icon {
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.7;
+}
+
+.empty-orders h2 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.empty-orders p {
+    color: #6c757d;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.explore-btn {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.explore-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+}
+
+/* Con órdenes */
+.orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Estadísticas */
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    text-align: center;
+    border-left: 4px solid #6A40CD;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: #6c757d;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Lista de órdenes */
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.order-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    border-left: 4px solid #007bff;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+}
+
+.order-card.completed {
+    border-left-color: #CF87C6;
+}
+
+.order-card.pending {
+    border-left-color: #ffc107;
+}
+
+.order-card.cancelled {
+    border-left-color: #dc3545;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.order-header:hover {
+    background: #f8f9fa;
+}
+
+.order-info h3 {
+    margin: 0 0 0.8rem 0;
+    color: #2c3e50;
+    font-size: 1.3rem;
+}
+
+.order-meta {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.order-date {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.order-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-completed {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-cancelled {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.order-total {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.total-amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #28a745;
+}
+
+.order-details-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.order-details-btn:hover {
+    background: #5a6268;
+    transform: translateY(-1px);
+}
+
+/* Detalles de la orden */
+.order-details {
+    padding: 0 2rem 2rem 2rem;
+    border-top: 1px solid #e9ecef;
+    background: #f8f9fa;
+    margin: 0 -2rem -2rem -2rem;
+}
+
+.order-items h4 {
+    margin: 0 0 1rem 0;
+    color: #2c3e50;
+    font-size: 1.1rem;
+    margin-left: 30px;
+    margin-top: 10px;
+
+}
+
+.items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.order-item {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.item-image {
+    width: 60px;
+    height: 45px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.item-name {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 1rem;
+}
+
+.item-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.item-price, .item-quantity, .item-category {
+    background: #f8f9fa;
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+.item-total {
+    font-weight: 700;
+    color: #28a745;
+    font-size: 1.1rem;
+    align-self: center;
+}
+
+.order-summary {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    max-width: 300px;
+    margin-left: auto;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.summary-row.total {
+    border-top: 2px solid #e9ecef;
+    border-bottom: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #28a745;
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+}
+
+/* Resumen general */
+.history-summary {
+    margin-top: 2rem;
+}
+
+.summary-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    border-left: 4px solid #28a745;
+}
+
+.summary-card h3 {
+    margin: 0 0 1.5rem 0;
+    color: #2c3e50;
+    font-size: 1.4rem;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 0.8rem;
+}
+
+.summary-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.summary-item span:last-child {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .order-history-page {
+        padding: 1rem;
+    }
+
+    .page-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .order-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .order-total {
+        text-align: left;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .stats-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .order-item {
+        grid-template-columns: 50px 1fr;
+        gap: 0.8rem;
+    }
+
+    .item-total {
+        grid-column: 1 / -1;
+        text-align: right;
+        border-top: 1px solid #e9ecef;
+        padding-top: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .order-summary {
+        max-width: none;
+        margin-left: 0;
+    }
+
+    .summary-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .order-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .order-details {
+        padding: 0 1rem 1rem 1rem;
+        margin: 0 -1rem -1rem -1rem;
+    }
+
+    .item-meta {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+}

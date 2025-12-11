@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./curses.component.css'],
 
   standalone: true,
-  imports: [CurrencyPipe,CartComponent, CommonModule],
+  imports: [CurrencyPipe, CommonModule, CartComponent],
 
 })
 

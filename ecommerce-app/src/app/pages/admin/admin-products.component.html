@@ -1,0 +1,79 @@
+<div class="admin-products">
+  <div class="header">
+    <button (click)="goBack()" class="btn-back">← Volver</button>
+    <h1>Gestión de Productos</h1>
+    <button (click)="createProduct()" class="btn-create">
+      + Nuevo Producto
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <p>Cargando productos...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!loading && !error" class="content">
+    <div class="stats">
+      <p>Total de productos: {{ totalProducts }}</p>
+    </div>
+
+    <table class="products-table">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Precio</th>
+          <th>Categoría</th>
+          <th>Nivel</th>
+          <th>Duración</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>{{ product.title }}</td>
+          <td>${{ product.price | number : "1.2-2" }}</td>
+          <td>
+            <span *ngIf="typeof product.category === 'string'">
+              {{ product.category }}
+            </span>
+          </td>
+          <td>{{ product.level }}</td>
+          <td>{{ product.duration }}h</td>
+          <td class="actions">
+            <button (click)="editProduct(product._id!)" class="btn-edit">
+              Editar
+            </button>
+            <button (click)="deleteProduct(product._id!)" class="btn-delete">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="products.length === 0" class="empty">
+      <p>No hay productos. Crea tu primer producto.</p>
+    </div>
+
+    <div *ngIf="totalPages > 1" class="pagination">
+      <button
+        (click)="loadProducts(currentPage - 1)"
+        [disabled]="currentPage === 1"
+        class="btn-pagination"
+      >
+        Anterior
+      </button>
+      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+      <button
+        (click)="loadProducts(currentPage + 1)"
+        [disabled]="currentPage === totalPages"
+        class="btn-pagination"
+      >
+        Siguiente
+      </button>
+    </div>
+  </div>
+</div>
