@@ -66,9 +66,9 @@
 
 
 
-    @if (productService.datos.length > 0) {
+    @if (cursosFiltrados.length > 0) {
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        @for (p of productService.filtrarPorCategoria(categoriaSeleccionada); track p) {
+        @for (p of cursosFiltrados; track p) {
           <div class="group bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col transform hover:-translate-y-1 hover:scale-[1.02] hover:border-custom-morado/30 cursor-pointer">
 
             <div class="relative overflow-hidden h-48">
@@ -76,20 +76,20 @@
               <span class="absolute top-3 left-3 categoria-curso text-white text-xs font-semibold px-3 py-1 rounded-full z-10">
                 {{p.categoria || 'Desarrollo Web'}}
               </span>
-               <!-- Imagen con efecto de escala suave -->
-    <a href="#" class="block h-full overflow-hidden">
-      <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 "
-           src="{{p.imagen}}" alt="Imagen del curso" />
-    </a>
+               <!-- Imagen con efecto de escala suave (sin enlace) -->
+    <div class="block h-full overflow-hidden">
+      <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+           [src]="p.imagen" alt="Imagen del curso" />
+    </div>
   </div>
 
 
 
             <div class="p-4 flex-grow flex flex-col">
 
-              <a href="#">
-                <h5 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{{p.nombre}}</h5>
-              </a>
+              <h5 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+                {{p.nombre}}
+              </h5>
               <p class="text-sm text-gray-600 mb-3 line-clamp-2">{{p.descripcion}}</p>
 
               <!-- Información adicional -->

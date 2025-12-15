@@ -10,10 +10,13 @@ import { protect, authorize } from '../middleware/auth.js';
 import { validateProduct } from '../middleware/validation.js';
 
 const router = express.Router();
-router.get('/products/', getProducts);
-router.get('product/:id', getProduct);
-router.post('product/', protect, authorize('admin'), validateProduct, createProduct);
-router.put('product/:id', protect, authorize('admin'), validateProduct, updateProduct);
-router.delete('product/:id', protect, authorize('admin'), deleteProduct);
+// Rutas públicas
+router.get('/', getProducts); // GET /api/products
+router.get('/:id', getProduct); // GET /api/products/:id
+
+// Rutas protegidas (solo admin)
+router.post('/', protect, authorize('admin'), validateProduct, createProduct); // POST /api/products
+router.put('/:id', protect, authorize('admin'), validateProduct, updateProduct); // PUT /api/products/:id
+router.delete('/:id', protect, authorize('admin'), deleteProduct); // DELETE /api/products/:id
 
 export default router;
