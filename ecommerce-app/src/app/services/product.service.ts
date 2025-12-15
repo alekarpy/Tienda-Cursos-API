@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
-import {Datos, DatosPaginados} from '../../datos';
+import { Datos, DatosPaginados, Producto } from '../../datos';
 import { HttpClient } from '@angular/common/http';
-import {firstValueFrom} from "rxjs";
+import { firstValueFrom, BehaviorSubject } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'})
 export class ProductService {
   datos: Datos[];
+  // Observable para notificar cambios en los productos
+  // Usamos BehaviorSubject para que los nuevos suscriptores reciban el último valor inmediatamente
+  private productsUpdated$ = new BehaviorSubject<Datos[]>([]);
+  public productsUpdated = this.productsUpdated$.asObservable();
 
   constructor(private httpClient: HttpClient) {
+    // Datos iniciales locales (fallback) - se reemplazarán con datos del backend si la API responde
     this.datos = [
       {
         id: 1, // Nuevo campo único
@@ -190,13 +196,121 @@ export class ProductService {
     ];
   }
 
-  traerProductos(): Promise<DatosPaginados[]> {
-    return firstValueFrom(
-        this.httpClient.get<DatosPaginados[]>('http://localhost:3000/api/products/products/')
-    );
+  /**
+   * Mapea un producto del backend (Producto) al modelo usado en el frontend (Datos)
+   */
+  private mapProductoADatos(product: Producto, index: number): Datos {
+    const nivelMap: Record<string, string> = {
+      principiante: 'Básico',
+      intermedio: 'Intermedio',
+      avanzado: 'Avanzado',
+    };
+
+    return {
+      id: index + 1,
+      nombre: product.title,
+      descripcion: product.description,
+      precio: product.price,
+      alumnos: product.students,
+      nivel: nivelMap[product.level] || product.level,
+      calificacion: product.rating,
+      categoria: (product.category as any)?.name || '',
+      imagen: this.getImagenParaProducto(product),
+      cantidad: 0,
+    };
   }
 
-  // 1. Obtener todos los datos
+  /**
+   * Determina qué imagen mostrar para un curso.
+   * - Si el producto tiene una imagen distinta al placeholder de backend, se usa esa.
+   * - Si es el placeholder o no tiene imagen, se asigna una imagen local según el título.
+   */
+  private getImagenParaProducto(product: Producto): string {
+    const backendPlaceholder =
+      'https://cdn.pixabay.com/photo/2023/12/15/17/09/ai-generated-8451031_1280.png';
+
+    // Si el admin configuró una imagen personalizada en el backend, úsala
+    if (product.image && product.image !== backendPlaceholder) {
+      return product.image;
+    }
+
+    // Si viene con la imagen por defecto del backend o sin imagen,
+    // mapeamos al mismo set de imágenes locales que usabas antes.
+    switch (product.title) {
+      case 'Javascript Avanzado: Domínalo Como Un Master':
+        return 'assets/img/img6.png';
+      case 'React: Crea Aplicaciones Web de Alto Nivel':
+        return 'assets/img/img2.png';
+      case 'Python Total: Analiza Datos En Tiempo Real':
+        return 'assets/img/img3.png';
+      case 'Angular: Crea Aplicaciones Web Complejas':
+        return 'assets/img/img4.png';
+      case 'Consumo de APIS: Aprende con Node.JS':
+        return 'assets/img/img1.png';
+      case 'Diseño de Interfaces: Aprende con Figma':
+        return 'assets/img/img5.png';
+      case 'Desarrollo de Aplicaciones Móviles: Aprende con React Native':
+        return 'assets/img/img8.png';
+      case 'Marketing Digital: Aprende con Google Analytics':
+        return 'assets/img/img9.png';
+      case 'SQL : Aprende a Utilizar Bases de Datos':
+        return 'assets/img/img10.png';
+      case 'Power Bi : Aprende a Crear Informes para tu Negocio':
+        return 'assets/img/img7.png';
+      case 'Conoce a tu Cliente: Aprende a Crear Personas':
+        return 'assets/img/img11.png';
+      case 'Ilustrator : Conviértete en un Gran Ilustrador':
+        return 'assets/img/img13.png';
+      case 'Fotografía Creativa: Vuélvete un Gran Fotógrafo':
+        return 'assets/img/img12.png';
+      default:
+        // Fallback genérico
+        return 'assets/img/img6.png';
+    }
+  }
+
+  /**
+   * Trae los cursos desde la API real y los mapea al formato `Datos`.
+   * También actualiza `this.datos` para que el resto de la app use los datos actualizados.
+   */
+  async traerProductosDesdeApi(): Promise<Datos[]> {
+    const url = `${environment.apiUrl}/products?page=1&limit=100`;
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/6a71a13e-6f5d-4bf5-a51d-55bfedcbd571',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'refresh-issue',hypothesisId:'B',location:'product.service.ts:traerProductosDesdeApi',message:'Llamando a API para obtener productos',data:{url,currentDatosLength:this.datos.length},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion
+    console.log('📡 [ProductService] traerProductosDesdeApi() →', url);
+
+    try {
+      const respuesta = await firstValueFrom(
+        this.httpClient.get<DatosPaginados>(url)
+      );
+
+      console.log('📡 [ProductService] Respuesta API productos:', respuesta);
+
+      const datosConvertidos = respuesta.data.map((p, idx) =>
+        this.mapProductoADatos(p as unknown as Producto, idx)
+      );
+
+      // Actualizar datos locales para que el resto de la app vea los cambios
+      this.datos = datosConvertidos;
+      // Notificar a todos los suscriptores que los datos han cambiado
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/6a71a13e-6f5d-4bf5-a51d-55bfedcbd571',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'refresh-issue',hypothesisId:'C',location:'product.service.ts:traerProductosDesdeApi:beforeNext',message:'Emitiendo evento productsUpdated$',data:{subscribersCount:'unknown',newDatosLength:this.datos.length,firstProduct:this.datos[0]?.nombre},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
+      this.productsUpdated$.next(datosConvertidos);
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/6a71a13e-6f5d-4bf5-a51d-55bfedcbd571',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'refresh-issue',hypothesisId:'B',location:'product.service.ts:traerProductosDesdeApi',message:'Datos actualizados en ProductService y notificados',data:{newDatosLength:this.datos.length,firstProduct:this.datos[0]?.nombre},timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
+
+      return datosConvertidos;
+    } catch (error) {
+      console.error('❌ [ProductService] Error al traer productos desde API:', error);
+      // Fallback: devolver los datos locales hardcodeados
+      return this.datos;
+    }
+  }
+
+  // 1. Obtener todos los datos (ya sea de API o fallback local)
   getTodosLosDatos(): Datos[] {
     return this.datos;
   }
@@ -208,5 +322,16 @@ export class ProductService {
     } else {
       return this.datos.filter((curso) => curso.categoria === categoria);
     }
+  }
+
+  /**
+   * Método público para refrescar los productos desde la API.
+   * Útil para ser llamado desde componentes de administración después de crear/actualizar/eliminar.
+   */
+  async refreshProducts(): Promise<void> {
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/6a71a13e-6f5d-4bf5-a51d-55bfedcbd571',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'refresh-issue',hypothesisId:'C',location:'product.service.ts:refreshProducts',message:'refreshProducts() llamado explícitamente',data:{timestamp:Date.now()},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion
+    await this.traerProductosDesdeApi();
   }
 }

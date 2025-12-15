@@ -98,7 +98,7 @@ export const getCategory = async (req, res) => {
 // @access  Privado/Admin
 export const createCategory = async (req, res) => {
   try {
-    const { name, description } = req.body;
+    const { name, description, imageURL } = req.body;
     
     // Verificar si la categoría ya existe
     const categoryExists = await Category.findOne({ 
@@ -114,7 +114,8 @@ export const createCategory = async (req, res) => {
     
     const category = await Category.create({
       name,
-      description
+      description,
+      ...(imageURL && { imageURL })
     });
     
     res.status(201).json({
@@ -136,7 +137,7 @@ export const createCategory = async (req, res) => {
 // @access  Privado/Admin
 export const updateCategory = async (req, res) => {
   try {
-    const { name, description } = req.body;
+    const { name, description, imageURL } = req.body;
     
     // Verificar si el nombre ya existe en otra categoría
     if (name) {
@@ -153,9 +154,14 @@ export const updateCategory = async (req, res) => {
       }
     }
     
+    const updateFields = { name, description };
+    if (typeof imageURL === 'string' && imageURL.trim() !== '') {
+      updateFields.imageURL = imageURL;
+    }
+    
     const category = await Category.findByIdAndUpdate(
       req.params.id,
-      { name, description },
+      updateFields,
       { new: true, runValidators: true }
     );
     

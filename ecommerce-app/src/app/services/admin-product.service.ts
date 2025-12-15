@@ -47,6 +47,21 @@ export class AdminProductService {
 
     private getHeaders(): HttpHeaders {
         const token = localStorage.getItem('token');
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/6a71a13e-6f5d-4bf5-a51d-55bfedcbd571',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        sessionId:'debug-session',
+        runId:'admin-products',
+        hypothesisId:'A',
+        location:'admin-product.service.ts:getHeaders',
+        message:'Obteniendo headers para AdminProductService',
+        data:{hasToken:!!token},
+        timestamp:Date.now()
+      })
+    }).catch(()=>{});
+    // #endregion
         return new HttpHeaders({
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
@@ -64,7 +79,25 @@ export class AdminProductService {
     // READ - Obtener todos los productos
     getProducts(page: number = 1, limit: number = 10): Observable<ProductsResponse> {
         console.log(`📦 [AdminProductService] getProducts() → Página ${page}, Límite ${limit}`);
-        return this.http.get<ProductsResponse>(`${this.apiUrl}?page=${page}&limit=${limit}`, {
+    const url = `${this.apiUrl}?page=${page}&limit=${limit}`;
+
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/6a71a13e-6f5d-4bf5-a51d-55bfedcbd571',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        sessionId:'debug-session',
+        runId:'admin-products',
+        hypothesisId:'B',
+        location:'admin-product.service.ts:getProducts',
+        message:'Llamando a endpoint de productos de admin',
+        data:{url,page,limit},
+        timestamp:Date.now()
+      })
+    }).catch(()=>{});
+    // #endregion
+
+    return this.http.get<ProductsResponse>(url, {
             headers: this.getHeaders()
         });
     }
