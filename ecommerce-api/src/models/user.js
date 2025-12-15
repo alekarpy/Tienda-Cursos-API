@@ -1,55 +1,40 @@
-// models/user.js
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-const userSchema = new mongoose.Schema(
-    {
-        username: {
-            type: String,
-            required: true,
-            unique: true,
-            match: [/^[a-zA-Z0-9]+$/, "El nombre de usuario debe contener solo letras y números"],
-            lowercase: true,
-            trim: true,
-            minlength: 6,
-        },
-
-        email: {
-            type: String,
-            required: true,
-            unique: true,
-            match: [/^\S+@\S+\.\S+$/, "Por favor use un email válido"],
-            lowercase: true,
-            trim: true,
-        },
-
-        password: {
-            type: String,
-            required: true,
-            minlength: 6,
-            select: false,
-        },
-
-        role: {
-            type: String,
-            enum: ['admin', 'cliente'],
-            default: 'cliente',
-        }
-    },
-    { timestamps: true }
-);
-
-// Hash automático antes de guardar
-userSchema.pre("save", async function(next) {
-    if (!this.isModified("password")) return next();
-    this.password = await bcrypt.hash(this.password, 12); // ← Aumentar salt rounds a 12
-    next();
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 6
+  },
+  role: {
+    type: String,
+    enum: ['admin', 'cliente'],
+    default: 'cliente'
+  }
+}, {
+  timestamps: true
 });
 
-// 🔥 CORREGIR: metodo correctPassword - solo un parametro
-userSchema.methods.correctPassword = async function(candidatePassword) {
-    return await bcrypt.compare(candidatePassword, this.password);
+userSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
+
+userSchema.methods.correctPassword = async function(candidatePassword, userPassword) {
+  return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-const User = mongoose.model("User", userSchema);
-export default User;
+export default mongoose.model('User', userSchema);

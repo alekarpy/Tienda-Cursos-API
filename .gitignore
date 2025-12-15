@@ -49,4 +49,7 @@ logs/
 tmp/
 temp/
 *.tmp
+COMO_SUBIR_A_GITHUB.md
+.DS_Store
+COMANDOS_GIT.md
 
