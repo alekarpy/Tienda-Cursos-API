@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/user.js';
+import User from '../models/User.js';
 
 // Middleware para verificar el token JWT y cargar el usuario completo (versión completa)
 const protect = async (req, res, next) => {
