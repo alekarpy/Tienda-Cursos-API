@@ -10,6 +10,7 @@ import categoryRoutes from './src/routes/categories.js';
 import cartRoutes from './src/routes/cart.js';
 import userRoutes from './src/routes/userRoutes.js';
 import orderRoutes from './src/routes/orders.js';
+import wishlistRoutes from './src/routes/wishlistRoutes.js';
 
 // Import middleware
 import errorHandler from './src/middleware/errorHandler.js';
@@ -57,6 +58,7 @@ server.use('/api/categories', categoryRoutes);
 server.use('/api/cart', cartRoutes);
 server.use('/api/users', userRoutes);
 server.use('/api/orders', orderRoutes);
+server.use('/api/wishlist', wishlistRoutes);
 
 // 🟢 MIDDLEWARE DE ERRORES (AL FINAL)
 server.use(errorHandler);
