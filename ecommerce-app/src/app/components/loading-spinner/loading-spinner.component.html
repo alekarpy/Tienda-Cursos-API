@@ -1,0 +1,11 @@
+<div class="spinner-container">
+  <div class="spinner" [class]="'spinner-' + size">
+    <div class="spinner-ring"></div>
+    <div class="spinner-ring"></div>
+    <div class="spinner-ring"></div>
+  </div>
+  @if (message) {
+  <p class="spinner-message">{{ message }}</p>
+  }
+</div>
+

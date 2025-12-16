@@ -1,7 +1,6 @@
 <div class="profile-container">
-    <div class="profile-header">
-
-        <!-- Avatar
+  <div class="profile-header">
+    <!-- Avatar
         <div class="user-avatar">
             <p>
             {{ getDisplayName()}}
@@ -9,147 +8,243 @@
         </div>
         -->
 
+    <h1>Mi Perfil</h1>
+    <p>Gestiona tu información y actividades</p>
+  </div>
 
-        <h1>Mi Perfil</h1>
-        <p>Gestiona tu información y actividades</p>
+  <div class="profile-content">
+    <!-- Sección Información Personal -->
+    <div class="profile-section">
+      <h2 style="display: flex">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#6A40CD"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-circle-user-icon lucide-circle-user mr-2"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <circle cx="12" cy="10" r="3" />
+          <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662" />
+        </svg>
+
+        Información Personal
+      </h2>
+      <div class="user-info">
+        <div class="info-item">
+          <label>Usuario:</label>
+          <span>&#64;{{ user?.username || "No disponible" }}</span>
+        </div>
+        <div class="info-item">
+          <label>Email:</label>
+          <span>{{ user?.email || "No disponible" }}</span>
+        </div>
+        <div class="info-item" *ngIf="user?.role">
+          <label>Rol:</label>
+          <span>{{ user?.role | titlecase }}</span>
+        </div>
+      </div>
     </div>
 
-    <div class="profile-content">
-        <!-- Sección Información Personal -->
-        <div class="profile-section">
-            <h2 style="display: flex">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="#6A40CD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                     class="lucide lucide-circle-user-icon lucide-circle-user mr-2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
+    <!-- Sección Estadísticas -->
+    <div class="profile-section">
+      <h2 style="display: flex">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#6A40CD"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-chart-no-axes-combined-icon lucide-chart-no-axes-combined mr-2"
+        >
+          <path d="M12 16v5" />
+          <path d="M16 14v7" />
+          <path d="M20 10v11" />
+          <path
+            d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"
+          />
+          <path d="M4 18v3" />
+          <path d="M8 14v7" />
+        </svg>
 
-                 Información Personal
-
-            </h2>
-            <div class="user-info">
-                <div class="info-item">
-                    <label>Usuario:</label>
-                    <span>&#64;{{ user?.username || 'No disponible' }}</span>
-                </div>
-                <div class="info-item">
-                    <label>Email:</label>
-                    <span>{{ user?.email || 'No disponible' }}</span>
-                </div>
-                <div class="info-item" *ngIf="user?.role">
-                    <label>Rol:</label>
-                    <span>{{ user?.role | titlecase }}</span>
-                </div>
-            </div>
+        Mis Estadísticas
+      </h2>
+      <div class="user-info">
+        <div class="info-item">
+          <label>Cursos en Carrito:</label>
+          <span>{{ cartItems.length }}</span>
         </div>
-
-        <!-- Sección Estadísticas -->
-        <div class="profile-section">
-            <h2 style="display: flex">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="#6A40CD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                     class="lucide lucide-chart-no-axes-combined-icon lucide-chart-no-axes-combined mr-2"><path
-                        d="M12 16v5"/><path d="M16 14v7"/><path d="M20 10v11"/><path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"/><path d="M4 18v3"/><path d="M8 14v7"/></svg>
-
-Mis Estadísticas
-            </h2>
-            <div class="user-info">
-                <div class="info-item">
-                    <label>Cursos en Carrito:</label>
-                    <span>{{ cartItems.length }}</span>
-                </div>
-                <div class="info-item">
-                    <label>Compras Realizadas:</label>
-                    <span>{{ recentOrders.length }}</span>
-                </div>
-                <div class="info-item">
-                    <label>Miembro desde:</label>
-                    <span>{{ getMemberSince() }}</span>
-                </div>
-            </div>
+        <div class="info-item">
+          <label>Compras Realizadas:</label>
+          <span>{{ recentOrders.length }}</span>
         </div>
-
-        <!-- Sección Carrito Actual -->
-        <div class="profile-section">
-
-            <h2 style="display: flex">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="#6A40CD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                     class="lucide lucide-shopping-cart-icon lucide-shopping-cart mr-2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
-                Mi Carrito
-            </h2>
-
-
-            <div class="cart-items">
-                <div *ngIf="cartItems.length === 0" class="empty-state">
-                    <p>Tu carrito está vacío</p>
-                    <span>¡Explora nuestros cursos y agrega algunos!</span>
-                </div>
-
-                <div class="cart-item" *ngFor="let item of cartItems">
-                    <!-- Agregar imagen del producto -->
-                    <div class="cart-item-image">
-                        <img [src]="item.imagen" [alt]="item.nombre" class="product-image">
-                    </div>
-
-                    <div class="cart-item-info">
-                        <div class="cart-item-name">{{ item.nombre }}</div>
-                        <div class="cart-item-details">
-                            <span>Cantidad: {{ item.cantidad || 1 }}</span>
-                            <span>Precio: ${{ item.precio | number:'1.2-2' }}</span>
-                        </div>
-                    </div>
-                    <div class="cart-item-price">
-                        ${{ (item.precio * (item.cantidad || 1)) | number:'1.2-2' }}
-                    </div>
-                </div>
-            </div>
-
-            <div *ngIf="cartItems.length > 0" class="cart-total">
-                <div class="info-item">
-                    <label>Total del Carrito:</label>
-                    <span>${{ getCartTotal() | number:'1.2-2' }}</span>
-                </div>
-            </div>
-
-            <button class="view-cart-btn" (click)="goToCart()">
-
-
-
-
-                {{ cartItems.length > 0 ? 'Continuar al Carrito' : 'Explorar Cursos' }}
-
-            </button>
+        <div class="info-item">
+          <label>Miembro desde:</label>
+          <span>{{ getMemberSince() }}</span>
         </div>
-
-        <!-- Sección Historial de Compras -->
-        <div class="profile-section">
-
-
-            <h2 style="display: flex">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="#6A40CD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                     class="lucide lucide-package-icon lucide-package mr-2"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/><path d="m7.5 4.27 9 5.15"/></svg>
-                Historial Reciente
-            </h2>
-
-
-
-            <div class="order-summary">
-                <div *ngIf="recentOrders.length === 0" class="empty-state">
-                    <p>No tienes compras recientes</p>
-                    <span>¡Tu historial de compras aparecerá aquí!</span>
-                </div>
-
-                <div class="order-item" *ngFor="let order of recentOrders">
-                    <span>Orden #{{ order.id }}</span>
-                    <span>{{ formatDate(order.date) }}</span>
-                    <span>Total: ${{ order.total | number:'1.2-2' }}</span>
-                    <span>Productos: {{ order.items?.length || 0 }}</span>
-                </div>
-            </div>
-            <button class="view-all-btn" (click)="goToOrderHistory()" [disabled]="recentOrders.length === 0">
-                Ver Historial Completo ({{ recentOrders.length }})
-            </button>
-        </div>
+      </div>
     </div>
+
+    <!-- Sección Carrito Actual -->
+    <div class="profile-section">
+      <h2 style="display: flex">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#6A40CD"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-shopping-cart-icon lucide-shopping-cart mr-2"
+        >
+          <circle cx="8" cy="21" r="1" />
+          <circle cx="19" cy="21" r="1" />
+          <path
+            d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+          />
+        </svg>
+        Mi Carrito
+      </h2>
+
+      <div class="cart-items">
+        <div *ngIf="cartItems.length === 0" class="empty-state">
+          <p>Tu carrito está vacío</p>
+          <span>¡Explora nuestros cursos y agrega algunos!</span>
+        </div>
+
+        <div class="cart-item" *ngFor="let item of cartItems">
+          <!-- Agregar imagen del producto -->
+          <div class="cart-item-image">
+            <img
+              [src]="item.imagen"
+              [alt]="item.nombre"
+              class="product-image"
+            />
+          </div>
+
+          <div class="cart-item-info">
+            <div class="cart-item-name">{{ item.nombre }}</div>
+            <div class="cart-item-details">
+              <span>Cantidad: {{ item.cantidad || 1 }}</span>
+              <span>Precio: ${{ item.precio | number : "1.2-2" }}</span>
+            </div>
+          </div>
+          <div class="cart-item-price">
+            ${{ item.precio * (item.cantidad || 1) | number : "1.2-2" }}
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="cartItems.length > 0" class="cart-total">
+        <div class="info-item">
+          <label>Total del Carrito:</label>
+          <span>${{ getCartTotal() | number : "1.2-2" }}</span>
+        </div>
+      </div>
+
+      <button class="view-cart-btn" (click)="goToCart()">
+        {{ cartItems.length > 0 ? "Continuar al Carrito" : "Explorar Cursos" }}
+      </button>
+    </div>
+
+    <!-- Sección Lista de Deseos -->
+    <div class="profile-section">
+      <h2 style="display: flex">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#6A40CD"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-heart-icon lucide-heart mr-2"
+        >
+          <path
+            d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"
+          />
+        </svg>
+        Mi Lista de Deseos
+      </h2>
+
+      <div class="wishlist-summary">
+        <div *ngIf="wishlistCount === 0" class="empty-state">
+          <p>Tu lista de deseos está vacía</p>
+          <span>¡Guarda tus cursos favoritos para más tarde!</span>
+        </div>
+
+        <div *ngIf="wishlistCount > 0" class="wishlist-info">
+          <div class="info-item">
+            <label>Productos guardados:</label>
+            <span>{{ wishlistCount }}</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="view-wishlist-btn" (click)="goToWishlist()">
+        {{ wishlistCount > 0 ? "Ver Mi Lista de Deseos" : "Explorar Cursos" }}
+      </button>
+    </div>
+
+    <!-- Sección Historial de Compras -->
+    <div class="profile-section">
+      <h2 style="display: flex">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#6A40CD"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-package-icon lucide-package mr-2"
+        >
+          <path
+            d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
+          />
+          <path d="M12 22V12" />
+          <polyline points="3.29 7 12 12 20.71 7" />
+          <path d="m7.5 4.27 9 5.15" />
+        </svg>
+        Historial Reciente
+      </h2>
+
+      <div class="order-summary">
+        <div *ngIf="recentOrders.length === 0" class="empty-state">
+          <p>No tienes compras recientes</p>
+          <span>¡Tu historial de compras aparecerá aquí!</span>
+        </div>
+
+        <div class="order-item" *ngFor="let order of recentOrders">
+          <span>Orden #{{ order.id }}</span>
+          <span>{{ formatDate(order.date) }}</span>
+          <span>Total: ${{ order.total | number : "1.2-2" }}</span>
+          <span>Productos: {{ order.items?.length || 0 }}</span>
+        </div>
+      </div>
+      <button
+        class="view-all-btn"
+        (click)="goToOrderHistory()"
+        [disabled]="recentOrders.length === 0"
+      >
+        Ver Historial Completo ({{ recentOrders.length }})
+      </button>
+    </div>
+  </div>
 </div>

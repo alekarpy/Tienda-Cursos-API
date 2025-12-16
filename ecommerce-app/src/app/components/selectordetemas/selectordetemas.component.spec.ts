@@ -1,23 +1,24 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { Renderer2 } from "@angular/core";
 
-import { SelectordetemasComponent } from './selectordetemas.component';
+import { TemaSelectorComponent } from "./selectordetemas.component";
 
-describe('SelectordetemasComponent', () => {
-  let component: SelectordetemasComponent;
-  let fixture: ComponentFixture<SelectordetemasComponent>;
+describe("TemaSelectorComponent", () => {
+  let component: TemaSelectorComponent;
+  let fixture: ComponentFixture<TemaSelectorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SelectordetemasComponent]
-    })
-    .compileComponents();
+      imports: [TemaSelectorComponent],
+      providers: [Renderer2],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(SelectordetemasComponent);
+    fixture = TestBed.createComponent(TemaSelectorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,172 +1,631 @@
-<section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-  <form (ngSubmit)="onSubmit()" class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-    <div class="lg:flex lg:gap-8">
+<section class="checkout-section">
+  <form
+    [formGroup]="checkoutForm"
+    (ngSubmit)="onSubmit()"
+    class="checkout-container"
+  >
+    <div class="checkout-layout">
       <!-- Sección izquierda: Información del cliente + Pago -->
-      <div class="lg:w-1/2 space-y-6">
+      <div class="checkout-form-section">
+        <!-- Título principal -->
+        <div class="checkout-header">
+          <h1 class="checkout-title">Finalizar Compra</h1>
+          <p class="checkout-subtitle">
+            Completa tu información para procesar el pago
+          </p>
+        </div>
+
         <!-- Información del cliente -->
-        <div class="space-y-6">
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Información del cliente</h2>
-          <div class="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre *</label>
-              <input type="text" id="nombre" name="nombre"
-                     class="button-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                     required>
+        <div class="form-card">
+          <div class="form-card-header">
+            <svg
+              class="form-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <h2 class="form-card-title">Información del Cliente</h2>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="nombre" class="form-label">Nombre *</label>
+              <input
+                type="text"
+                id="nombre"
+                formControlName="nombre"
+                class="form-input"
+                placeholder="Juan"
+                [class.input-error]="
+                  checkoutForm.get('nombre')?.invalid &&
+                  checkoutForm.get('nombre')?.touched
+                "
+              />
+              @if (checkoutForm.get('nombre')?.invalid &&
+              checkoutForm.get('nombre')?.touched) {
+              <div class="error-message">Nombre requerido</div>
+              }
             </div>
-            <div>
-              <label for="apellido" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Apellido *</label>
-              <input type="text" id="apellido" name="apellido"
-                     class="button-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                     required>
+
+            <div class="form-group">
+              <label for="apellido" class="form-label">Apellido *</label>
+              <input
+                type="text"
+                id="apellido"
+                formControlName="apellido"
+                class="form-input"
+                placeholder="Pérez"
+                [class.input-error]="
+                  checkoutForm.get('apellido')?.invalid &&
+                  checkoutForm.get('apellido')?.touched
+                "
+              />
+              @if (checkoutForm.get('apellido')?.invalid &&
+              checkoutForm.get('apellido')?.touched) {
+              <div class="error-message">Apellido requerido</div>
+              }
             </div>
-            <div class="sm:col-span-2">
-              <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Correo electrónico *</label>
-              <input type="email" id="email" name="email"
-                     class="button-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                     required>
+
+            <div class="form-group full-width">
+              <label for="email" class="form-label">Correo electrónico *</label>
+              <input
+                type="email"
+                id="email"
+                formControlName="email"
+                class="form-input"
+                placeholder="juan.perez@ejemplo.com"
+                [class.input-error]="
+                  checkoutForm.get('email')?.invalid &&
+                  checkoutForm.get('email')?.touched
+                "
+              />
+              @if (checkoutForm.get('email')?.invalid &&
+              checkoutForm.get('email')?.touched) {
+              <div class="error-message">
+                @if (checkoutForm.get('email')?.errors?.['required']) {
+                <span>Correo electrónico requerido</span>
+                } @if (checkoutForm.get('email')?.errors?.['email']) {
+                <span>Correo electrónico inválido</span>
+                }
+              </div>
+              }
             </div>
-            <div class="sm:col-span-2">
-              <label for="telefono" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Teléfono *</label>
 
-              <input type="tel" id="telefono" [formControl]="phoneControl"
-       class="button-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-       [class.border-red-500]="phoneControl.invalid && phoneControl.touched">
-
-
-@if (phoneControl.invalid && phoneControl.touched) {
-  <div class="text-red-500 text-sm mt-1">
-    @if (phoneControl.errors?.['required']) {
-      <span>Teléfono requerido</span>
-    }
-    @if (phoneControl.errors?.['pattern']) {
-      <span>Solo se permiten números</span>
-    }
-    @if (phoneControl.errors?.['minlength']) {
-      <span>Mínimo 10 dígitos</span>
-    }
-  </div>
-}
-
-
-
+            <div class="form-group full-width">
+              <label for="telefono" class="form-label">Teléfono *</label>
+              <input
+                type="tel"
+                id="telefono"
+                formControlName="telefono"
+                class="form-input"
+                placeholder="1234567890"
+                [class.input-error]="
+                  checkoutForm.get('telefono')?.invalid &&
+                  checkoutForm.get('telefono')?.touched
+                "
+              />
+              @if (checkoutForm.get('telefono')?.invalid &&
+              checkoutForm.get('telefono')?.touched) {
+              <div class="error-message">
+                @if (checkoutForm.get('telefono')?.errors?.['required']) {
+                <span>Teléfono requerido</span>
+                } @if (checkoutForm.get('telefono')?.errors?.['pattern']) {
+                <span>Solo se permiten números. </span>
+                } @if (checkoutForm.get('telefono')?.errors?.['minlength']) {
+                <span>Mínimo 10 dígitos</span>
+                } @if (checkoutForm.get('telefono')?.errors?.['maxlength']) {
+                <span>Máximo 15 dígitos</span>
+                }
+              </div>
+              }
             </div>
           </div>
         </div>
 
-        <!-- Sección de Pago simplificada -->
-        <div class="space-y-6 pt-4">
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Información de Pago</h2>
+        <!-- Sección de Método de Pago -->
+        <div class="form-card">
+          <div class="form-card-header">
+            <svg
+              class="form-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+              <line x1="1" y1="10" x2="23" y2="10"></line>
+            </svg>
+            <h2 class="form-card-title">Método de Pago</h2>
+          </div>
 
-          <div class="space-y-4">
-            <div>
-              <label for="card-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre en la tarjeta *</label>
-              <input type="text" id="card-name" name="card-name"
-                     class="button-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                     required>
+          <!-- Selector de método de pago -->
+          <div class="payment-method-selector">
+            <div
+              class="payment-option"
+              [class.selected]="selectedPaymentMethod === 'tarjeta'"
+              (click)="checkoutForm.get('paymentMethod')?.setValue('tarjeta')"
+            >
+              <input
+                type="radio"
+                id="payment-tarjeta"
+                formControlName="paymentMethod"
+                value="tarjeta"
+                class="payment-radio"
+              />
+              <label for="payment-tarjeta" class="payment-label">
+                <div class="payment-icon-wrapper">
+                  <svg
+                    class="payment-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect
+                      x="1"
+                      y="4"
+                      width="22"
+                      height="16"
+                      rx="2"
+                      ry="2"
+                    ></rect>
+                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                  </svg>
+                </div>
+                <div>
+                  <div class="payment-name">Tarjeta de Crédito/Débito</div>
+                  <div class="payment-description">Visa, Mastercard, Amex</div>
+                </div>
+              </label>
             </div>
 
-            <div>
-              <label for="card-number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Número de tarjeta *</label>
-              <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456"
-                     class="button-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                     required>
+            <div
+              class="payment-option"
+              [class.selected]="selectedPaymentMethod === 'paypal'"
+              (click)="checkoutForm.get('paymentMethod')?.setValue('paypal')"
+            >
+              <input
+                type="radio"
+                id="payment-paypal"
+                formControlName="paymentMethod"
+                value="paypal"
+                class="payment-radio"
+              />
+              <label for="payment-paypal" class="payment-label">
+                <div class="payment-icon-wrapper paypal-icon">
+                  <svg
+                    class="payment-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                    <path d="M2 17l10 5 10-5"></path>
+                    <path d="M2 12l10 5 10-5"></path>
+                  </svg>
+                </div>
+                <div>
+                  <div class="payment-name">PayPal</div>
+                  <div class="payment-description">
+                    Paga con tu cuenta PayPal
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Campos de Tarjeta -->
+          @if (selectedPaymentMethod === 'tarjeta') {
+          <div class="payment-fields">
+            <div class="form-group full-width">
+              <label for="card-name" class="form-label"
+                >Nombre en la tarjeta *</label
+              >
+              <input
+                type="text"
+                id="card-name"
+                formControlName="cardName"
+                class="form-input"
+                placeholder="JUAN PEREZ"
+                [class.input-error]="
+                  checkoutForm.get('cardName')?.invalid &&
+                  checkoutForm.get('cardName')?.touched
+                "
+              />
+              @if (checkoutForm.get('cardName')?.invalid &&
+              checkoutForm.get('cardName')?.touched) {
+              <div class="error-message">Nombre en la tarjeta requerido</div>
+              }
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label for="expiry-date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha de expiración *</label>
-                <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/AA"
-                       class="button-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                       required>
+            <div class="form-group full-width">
+              <label for="card-number" class="form-label"
+                >Número de tarjeta *</label
+              >
+              <input
+                type="text"
+                id="card-number"
+                formControlName="cardNumber"
+                placeholder="1234 5678 9012 3456"
+                class="form-input"
+                [class.input-error]="
+                  checkoutForm.get('cardNumber')?.invalid &&
+                  checkoutForm.get('cardNumber')?.touched
+                "
+              />
+              @if (checkoutForm.get('cardNumber')?.invalid &&
+              checkoutForm.get('cardNumber')?.touched) {
+              <div class="error-message">
+                @if (checkoutForm.get('cardNumber')?.errors?.['required']) {
+                <span>Número de tarjeta requerido</span>
+                } @if (checkoutForm.get('cardNumber')?.errors?.['pattern']) {
+                <span>Solo se permiten números</span>
+                } @if (checkoutForm.get('cardNumber')?.errors?.['minlength']) {
+                <span>Número de tarjeta inválido</span>
+                }
               </div>
-              <div>
-                <label for="cvv" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CVV *</label>
-                <input type="text" id="cvv" name="cvv" placeholder="123"
-                       class="button-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                       required>
+              }
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="expiry-date" class="form-label"
+                  >Fecha de expiración *</label
+                >
+                <input
+                  type="text"
+                  id="expiry-date"
+                  formControlName="expiryDate"
+                  placeholder="MM/AA"
+                  maxlength="5"
+                  (input)="formatExpiryDate($event)"
+                  class="form-input"
+                  [class.input-error]="
+                    checkoutForm.get('expiryDate')?.invalid &&
+                    checkoutForm.get('expiryDate')?.touched
+                  "
+                />
+                @if (checkoutForm.get('expiryDate')?.invalid &&
+                checkoutForm.get('expiryDate')?.touched) {
+                <div class="error-message">
+                  @if (checkoutForm.get('expiryDate')?.errors?.['required']) {
+                  <span>Fecha requerida</span>
+                  } @if (checkoutForm.get('expiryDate')?.errors?.['pattern']) {
+                  <span>Formato inválido (MM/AA)</span>
+                  }
+                </div>
+                }
+              </div>
+
+              <div class="form-group">
+                <label for="cvv" class="form-label">CVV *</label>
+                <input
+                  type="text"
+                  id="cvv"
+                  formControlName="cvv"
+                  placeholder="123"
+                  class="form-input"
+                  [class.input-error]="
+                    checkoutForm.get('cvv')?.invalid &&
+                    checkoutForm.get('cvv')?.touched
+                  "
+                />
+                @if (checkoutForm.get('cvv')?.invalid &&
+                checkoutForm.get('cvv')?.touched) {
+                <div class="error-message">
+                  @if (checkoutForm.get('cvv')?.errors?.['required']) {
+                  <span>CVV requerido</span>
+                  } @if (checkoutForm.get('cvv')?.errors?.['pattern']) {
+                  <span>CVV inválido (3-4 dígitos)</span>
+                  }
+                </div>
+                }
               </div>
             </div>
           </div>
+          }
+
+          <!-- Campos de PayPal -->
+          @if (selectedPaymentMethod === 'paypal') {
+          <div class="payment-fields">
+            <div class="paypal-info">
+              <svg
+                class="paypal-logo"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="#0070ba"
+              >
+                <path
+                  d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a.695.695 0 0 0-.679.858c.365 2.18.24 3.855-.365 5.076-.713 1.427-1.987 2.23-3.893 2.23h-2.906c-.26 0-.48.19-.52.45l-.72 4.58c-.04.26.162.49.422.49h2.47c.433 0 .802-.33.844-.763l.028-.168.57-3.63.038-.22c.042-.26.23-.45.49-.45h.3c2.02 0 3.607-.456 4.577-1.33.955-.86 1.328-2.11 1.036-3.84-.02-.12-.04-.24-.06-.36-.176-1.13-.5-2.01-1.01-2.65-.57-.7-1.39-1.05-2.48-1.05z"
+                />
+              </svg>
+              <p class="paypal-text">
+                Serás redirigido a PayPal para completar el pago de forma
+                segura.
+              </p>
+            </div>
+            <div class="form-group full-width">
+              <label for="paypal-email" class="form-label"
+                >Correo de PayPal *</label
+              >
+              <input
+                type="email"
+                id="paypal-email"
+                formControlName="paypalEmail"
+                class="form-input"
+                placeholder="tu.email@ejemplo.com"
+                [class.input-error]="
+                  checkoutForm.get('paypalEmail')?.invalid &&
+                  checkoutForm.get('paypalEmail')?.touched
+                "
+              />
+              @if (checkoutForm.get('paypalEmail')?.invalid &&
+              checkoutForm.get('paypalEmail')?.touched) {
+              <div class="error-message">
+                @if (checkoutForm.get('paypalEmail')?.errors?.['required']) {
+                <span>Correo de PayPal requerido</span>
+                } @if (checkoutForm.get('paypalEmail')?.errors?.['email']) {
+                <span>Correo electrónico inválido</span>
+                }
+              </div>
+              }
+            </div>
+          </div>
+          }
         </div>
+
+        <!-- Mensaje de error -->
+        @if (error) {
+        <div class="error-card">
+          <svg
+            class="error-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <p class="error-text">{{ error }}</p>
+        </div>
+        }
 
         <!-- Botón de pago -->
-        <div class="botondePago pt-6">
-          <button type="submit" class="btn-class w-full">
-            <div class="botoneicono flex items-center justify-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17 14h.01"/>
-                <path d="M7 7h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14"/>
-              </svg>
-              <span>Proceder al pago</span>
-            </div>
+        <div class="checkout-button-wrapper">
+          <button
+            type="submit"
+            class="checkout-button"
+            [disabled]="loading || checkoutForm.invalid"
+            [class.button-disabled]="loading || checkoutForm.invalid"
+          >
+            @if (loading) {
+            <svg
+              class="button-spinner"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="spinner-circle"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="spinner-path"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            <span>Procesando pago...</span>
+            } @else {
+            <svg
+              class="button-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M17 14h.01"></path>
+              <path
+                d="M7 7h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14"
+              ></path>
+            </svg>
+            <span>Proceder al Pago</span>
+            }
           </button>
         </div>
       </div>
 
       <!-- Sección derecha: Resumen del pedido -->
-      <div class="lg:w-1/2 mt-6 lg:mt-0">
-        <div class=" fondo-gris dark:bg-gray-800 p-6 rounded-lg sticky top-4">
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Resumen del Pedido</h2>
+      <div class="checkout-summary-section">
+        <div class="summary-card">
+          <div class="summary-header">
+            <svg
+              class="summary-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+              ></path>
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+            </svg>
+            <h2 class="summary-title">Resumen del Pedido</h2>
+          </div>
 
           @if (cartService.items.length === 0) {
-            <div class="text-center py-8">
-              <p class="text-gray-500">No hay artículos en tu carrito</p>
-              <a routerLink="/inicio" class="text-purple-800 hover:text-purple-900 mt-2 inline-block">
-                Volver a la tienda
-              </a>
-            </div>
+          <div class="empty-cart-message">
+            <svg
+              class="empty-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path
+                d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+              ></path>
+            </svg>
+            <p class="empty-text">No hay artículos en tu carrito</p>
+            <a routerLink="/inicio" class="back-link">Volver a la tienda</a>
+          </div>
           }
 
-
-          <div class="space-y-4">
+          <div class="summary-items">
             @for (item of cartService.items; track item.id) {
-              <div class="flex items-center justify-between border-b pb-4">
-                <div class="flex items-center gap-4">
-                  <div class="images-cursos dark:bg-gray-700 flex items-center justify-center">
-                    <img [src]="item.imagen" class="imagen-src object-cover">
-                  </div>
-                  <div>
-                    <h3 class="font-medium text-gray-900 dark:text-white">{{item.nombre}}</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">{{item.categoria}}</p>
-
-
-
-                     <!-- Controles de cantidad (mismo estilo que en cart) -->
-      <div class="flex items-center gap-2 mt-2">
-        <button (click)="cartService.decreaseQuantity(item)"
-                class="text-gray-500 hover:text-indigo-600 w-6 h-6 flex items-center justify-center border rounded">
-          <i class="fas fa-minus text-xs"></i>
-        </button>
-        <span class="mx-2">{{item.cantidad}}</span>
-        <button (click)="cartService.increaseQuantity(item)"
-                class="text-gray-500 hover:text-indigo-600 w-6 h-6 flex items-center justify-center border rounded">
-          <i class="fas fa-plus text-xs"></i>
-        </button>
-      </div>
-
-
-
-
-                  </div>
-                </div>
-                <div class="text-right">
-                  <p class="font-medium text-gray-900 dark:text-white">{{item.precio * item.cantidad | currency}}</p>
-                  <button type="button"
-                          (click)="cartService.removeFromCart(item)"
-                          class="text-sm text-red-500 hover:text-red-900">
-                    Eliminar
+            <div class="summary-item">
+              <div class="item-image-wrapper">
+                <img
+                  [src]="item.imagen"
+                  [alt]="item.nombre"
+                  class="item-image"
+                />
+              </div>
+              <div class="item-info">
+                <h3 class="item-name">{{ item.nombre }}</h3>
+                <p class="item-category">{{ item.categoria }}</p>
+                <div class="item-quantity-controls">
+                  <button
+                    type="button"
+                    (click)="cartService.decreaseQuantity(item)"
+                    class="qty-button"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                  </button>
+                  <span class="qty-value">{{ item.cantidad }}</span>
+                  <button
+                    type="button"
+                    (click)="cartService.increaseQuantity(item)"
+                    class="qty-button"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
                   </button>
                 </div>
               </div>
+              <div class="item-price-section">
+                <p class="item-price">
+                  {{ item.precio * item.cantidad | currency }}
+                </p>
+                <button
+                  type="button"
+                  (click)="cartService.removeFromCart(item)"
+                  class="remove-item-button"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path
+                      d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
             }
           </div>
 
-          <!-- Total -->
-          <div class="mt-2 pt-4   ">
-            <dl class="flex items-center justify-between">
-              <dt class="text-lg font-bold text-gray-900 dark:text-white">Total</dt>
-              <dd class="text-lg font-bold text-gray-900 dark:text-white">{{ cartService.getTotalPrice() | currency }}</dd>
-            </dl>
+          <!-- Resumen de precios -->
+          <div class="summary-totals">
+            <div class="total-row">
+              <span class="total-label">Subtotal:</span>
+              <span class="total-value">{{ subtotal | currency }}</span>
+            </div>
+            <div class="total-row">
+              <span class="total-label">IVA (16%):</span>
+              <span class="total-value">{{ tax | currency }}</span>
+            </div>
+            <div class="total-row final-total">
+              <span class="total-label">Total:</span>
+              <span class="total-value">{{ totalWithTax | currency }}</span>
+            </div>
           </div>
         </div>
       </div>

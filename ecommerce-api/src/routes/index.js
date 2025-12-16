@@ -11,6 +11,7 @@ import orderRoutes from './orderRoutes.js';
 import reviewRoutes from './reviewRoutes.js';
 import notificationRoutes from './notificationRoutes.js';
 import paymentMethodRoutes from './paymentMethodRoutes.js';
+import wishlistRoutes from './wishlistRoutes.js';
 import course from "../models/course.js";
 
 const router = express.Router();
@@ -28,5 +29,6 @@ router.use('/orders', orderRoutes);
 router.use('/reviews', reviewRoutes);
 router.use('/notifications', notificationRoutes);
 router.use('/payment-methods', paymentMethodRoutes);
+router.use('/wishlist', wishlistRoutes);
 
 export default router;

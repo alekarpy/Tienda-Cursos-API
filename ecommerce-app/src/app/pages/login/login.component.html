@@ -1,108 +1,122 @@
 <div class="login-bg">
-    <div class="login-box">
-        <img src="./assets/img/logo.png" alt="Logo" />
+  <div class="login-box">
+    <img src="./assets/img/logo.png" alt="Logo" />
 
-        <h2 class="login-subtitle">Inicia sesión para ver los cursos</h2>
+    <h2 class="login-subtitle">Inicia sesión para ver los cursos</h2>
 
-        <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Campo Username -->
+      <label for="username" class="login-label">Nombre de Usuario</label>
+      <input
+        type="text"
+        id="username"
+        class="login-input"
+        placeholder="username"
+        formControlName="username"
+        (input)="validateUsername()"
+      />
 
-            <!-- Campo Username -->
-            <label for="username" class="login-label">Nombre de Usuario</label>
-            <input type="text" id="username" class="login-input"
-                   placeholder="username" required
-                   [(ngModel)]="username"
-                   name="username"
-                   (blur)="checkUserExists()"
-                   (input)="validateUsername()">
+      <!-- Mensajes de error para username -->
+      <div *ngIf="usernameError" class="error-text">
+        {{ usernameError }}
+      </div>
 
-            <!-- Mensajes de error para username -->
-            <div *ngIf="usernameError" class="error-text">
-                {{ usernameError }}
-            </div>
+      <!-- Campo Email -->
+      <label for="email" class="login-label">Email</label>
+      <input
+        type="email"
+        id="email"
+        class="login-input"
+        placeholder="tuemail@ejemplo.com"
+        formControlName="email"
+        (input)="validateEmail()"
+      />
 
-            <!-- Campo Email -->
-            <label for="email" class="login-label">Email</label>
-            <input type="email" id="email" class="login-input"
-                   placeholder="tuemail@ejemplo.com" required
-                   [(ngModel)]="email"
-                   name="email"
-                   (input)="validateEmail()">
+      <!-- Mensajes de error para email -->
+      <div *ngIf="emailError" class="error-text">
+        {{ emailError }}
+      </div>
 
-            <!-- Mensajes de error para email -->
-            <div *ngIf="emailError" class="error-text">
-                {{ emailError }}
-            </div>
+      <!-- Campo Password con ícono -->
+      <label for="password" class="login-label">Contraseña</label>
+      <div class="password-container">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          class="login-input password-input"
+          placeholder="********"
+          formControlName="password"
+          (input)="validatePassword()"
+        />
 
-            <!-- Campo Password con ícono -->
-            <label for="password" class="login-label">Contraseña</label>
-            <div class="password-container">
-                <input [type]="showPassword ? 'text' : 'password'"
-                       id="password"
-                       class="login-input password-input"
-                       placeholder="********"
-                       required
-                       [(ngModel)]="password"
-                       name="password"
-                       (input)="validatePassword()" />
+        <button
+          type="button"
+          class="password-toggle"
+          (click)="togglePasswordVisibility()"
+          tabindex="-1"
+        >
+          <svg
+            *ngIf="!showPassword"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-eye"
+          >
+            <path
+              d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+            />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
 
-                <button type="button"
-                        class="password-toggle"
-                        (click)="togglePasswordVisibility()"
-                        tabindex="-1">
-                    <svg *ngIf="!showPassword"
-                         xmlns="http://www.w3.org/2000/svg"
-                         width="20"
-                         height="20"
-                         viewBox="0 0 24 24"
-                         fill="none"
-                         stroke="currentColor"
-                         stroke-width="2"
-                         stroke-linecap="round"
-                         stroke-linejoin="round"
-                         class="lucide lucide-eye">
-                        <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/>
-                        <circle cx="12" cy="12" r="3"/>
-                    </svg>
+          <svg
+            *ngIf="showPassword"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-eye-off"
+          >
+            <path
+              d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"
+            />
+            <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+            <path
+              d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"
+            />
+            <path d="m2 2 20 20" />
+          </svg>
+        </button>
+      </div>
 
-                    <svg *ngIf="showPassword"
-                         xmlns="http://www.w3.org/2000/svg"
-                         width="20"
-                         height="20"
-                         viewBox="0 0 24 24"
-                         fill="none"
-                         stroke="currentColor"
-                         stroke-width="2"
-                         stroke-linecap="round"
-                         stroke-linejoin="round"
-                         class="lucide lucide-eye-off">
-                        <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/>
-                        <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/>
-                        <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/>
-                        <path d="m2 2 20 20"/>
-                    </svg>
-                </button>
-            </div>
+      <!-- Mensajes de error para password -->
+      <div *ngIf="passwordError" class="error-text">
+        {{ passwordError }}
+      </div>
 
-            <!-- Mensajes de error para password -->
-            <div *ngIf="passwordError" class="error-text">
-                {{ passwordError }}
-            </div>
+      <button type="submit" class="btn-login" [disabled]="!canSubmit()">
+        {{ loading ? "Ingresando..." : "Ingresar" }}
+      </button>
 
-            <button type="submit"
-                    class="btn-login"
-                    [disabled]="!canSubmit()">
-                {{ loading ? 'Ingresando...' : 'Ingresar' }}
-            </button>
+      <!-- Mensaje de error general -->
+      <p *ngIf="errorMessage2" class="error-text2">
+        {{ errorMessage2 }}
+      </p>
+    </form>
 
-            <!-- Mensaje de error general -->
-            <p *ngIf="errorMessage2" class="error-text2">
-                {{ errorMessage2 }}
-            </p>
-        </form>
-
-        <div class="text-register">
-            <p>¿No tienes una cuenta?</p>
-            <a routerLink="/register" class="btn-register">Registrate</a>
-        </div>
+    <div class="text-register">
+      <p>¿No tienes una cuenta?</p>
+      <a routerLink="/register" class="btn-register">Registrate</a>
     </div>
+  </div>
 </div>

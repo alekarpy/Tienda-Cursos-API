@@ -15,7 +15,9 @@ router.use(protect);
 router.get('/', getCart);
 router.post('/add', addToCart);
 router.put('/:itemId', updateCartItem);
-router.delete('/:itemId', removeFromCart);
+// IMPORTANTE: La ruta DELETE '/' debe ir ANTES de DELETE '/:itemId' 
+// para que Express haga match correctamente con DELETE /api/cart
 router.delete('/', clearCart);
+router.delete('/:itemId', removeFromCart);
 
 export default router;

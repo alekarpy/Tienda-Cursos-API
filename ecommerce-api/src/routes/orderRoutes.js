@@ -6,6 +6,7 @@ import {
     getUserOrders,
     getOrderById,
     updateOrderStatus,
+    confirmPayment,
     deleteOrder
 } from "../controllers/orderController.js";
 
@@ -19,6 +20,9 @@ router.get("/", authenticateToken, getUserOrders);
 
 // Obtener una orden por ID
 router.get("/:id", authenticateToken, getOrderById);
+
+// Confirmar pago y cambiar estado a "Completado"
+router.post("/:id/confirm-payment", authenticateToken, confirmPayment);
 
 // Actualizar estado de la orden (solo admin)
 router.patch("/:id/status", authenticateToken, updateOrderStatus);

@@ -1,0 +1,27 @@
+<div class="table-skeleton-container">
+  <table class="skeleton-table">
+    <thead>
+      <tr>
+        @for (col of columnsArray; track $index) {
+        <th>
+          <div class="skeleton-header bg-gray-200 rounded h-5"></div>
+        </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of rowsArray; track $index) {
+      <tr>
+        @for (col of columnsArray; track $index) {
+        <td>
+          <div
+            class="skeleton-cell bg-gray-200 rounded h-4 animate-pulse"
+          ></div>
+        </td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+

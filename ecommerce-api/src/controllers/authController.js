@@ -91,19 +91,26 @@ const login = async (req, res, next) => {
             });
         }
 
-        // Buscar usuario por username o email
+        // Validar que se proporcionen username y email (ambos son requeridos)
+        if (!username || !email) {
+            return res.status(400).json({
+                success: false,
+                message: "Username y email son requeridos"
+            });
+        }
+
+        // Buscar usuario que tenga AMBOS username y email (deben coincidir exactamente)
         // #region agent log
         fetch('http://127.0.0.1:7242/ingest/6a71a13e-6f5d-4bf5-a51d-55bfedcbd571',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'login-issue',hypothesisId:'C',location:'authController.js:login',message:'Buscando usuario en BD',data:{username,email},timestamp:Date.now()})}).catch(()=>{});
         // #endregion
-        const user = await User.findOne({
-            $or: [{ email }, { username }]
-        }).select('+password');
+        
+        const user = await User.findOne({ username, email }).select('+password');
 
         if (!user) {
             // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/6a71a13e-6f5d-4bf5-a51d-55bfedcbd571',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'login-issue',hypothesisId:'D',location:'authController.js:login',message:'Usuario no encontrado',data:{username,email},timestamp:Date.now()})}).catch(()=>{});
+            fetch('http://127.0.0.1:7242/ingest/6a71a13e-6f5d-4bf5-a51d-55bfedcbd571',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'login-issue',hypothesisId:'D',location:'authController.js:login',message:'Usuario no encontrado - username o email incorrectos',data:{username,email},timestamp:Date.now()})}).catch(()=>{});
             // #endregion
-            console.log('❌ [Login] Usuario no encontrado');
+            console.log('❌ [Login] Usuario no encontrado con username y email proporcionados');
             return res.status(401).json({
                 success: false,
                 message: "Credenciales incorrectas"

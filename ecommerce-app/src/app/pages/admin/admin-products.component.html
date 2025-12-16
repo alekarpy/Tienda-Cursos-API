@@ -8,7 +8,7 @@
   </div>
 
   <div *ngIf="loading" class="loading">
-    <p>Cargando productos...</p>
+    <app-table-skeleton [rows]="5" [columns]="6"></app-table-skeleton>
   </div>
 
   <div *ngIf="error" class="error">

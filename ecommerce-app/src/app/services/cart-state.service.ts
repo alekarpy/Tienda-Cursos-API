@@ -257,14 +257,13 @@ export class CartStateService {
       0
     );
     const tax = subtotal * 0.16; // 16% de impuesto (ajustable)
-    const shipping = subtotal > 1000 ? 0 : 50; // Envío gratis sobre $1000
     const discount = 0; // Puedes implementar lógica de descuentos aquí
-    const total = subtotal + tax + shipping - discount;
+    const total = subtotal + tax - discount; // Productos digitales, sin envío
 
     const summary = {
       subtotal,
       tax,
-      shipping,
+      shipping: 0, // Productos digitales, sin envío
       discount,
       total,
       currency: "MXN",

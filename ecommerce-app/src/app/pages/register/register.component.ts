@@ -1,196 +1,234 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { environment } from './../../../environments/environment';
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  AbstractControl,
+  ValidationErrors,
+} from "@angular/forms";
+import { Router, RouterLink } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "./../../../environments/environment";
 
 @Component({
-    selector: 'app-register',
-    standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-        RouterLink
-    ],
-    templateUrl: './register.component.html',
-    styleUrl: './register.component.css'
+  selector: "app-register",
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  templateUrl: "./register.component.html",
+  styleUrl: "./register.component.css",
 })
 export class RegisterComponent {
+  registerForm: FormGroup;
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
 
-    username: string = '';
-    email: string = '';
-    password: string = '';
-    confirmPassword: string = '';
-    showPassword: boolean = false;
-    showConfirmPassword: boolean = false;
+  loading = false;
+  errorMessage = "";
+  successMessage = "";
+  usernameError = "";
+  emailError = "";
+  passwordError = "";
+  confirmPasswordError = "";
 
-    loading = false;
-    errorMessage = '';
-    successMessage = '';
-    usernameError = '';
-    emailError = '';
-    passwordError = '';
-    confirmPasswordError = '';
+  // ajusta la URL a tu backend
+  private apiUrl = `${environment.apiUrl}/auth/register`;
+  private checkUserUrl = `${environment.apiUrl}/auth/check-user`;
 
-    // ajusta la URL a tu backend
-    private apiUrl = `${environment.apiUrl}/auth/register`;
-    private checkUserUrl = `${environment.apiUrl}/auth/check-user`;
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private fb: FormBuilder
+  ) {
+    this.registerForm = this.fb.group(
+      {
+        username: ["", [Validators.required, Validators.minLength(6)]],
+        email: ["", [Validators.required, Validators.email]],
+        password: ["", [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ["", [Validators.required]],
+      },
+      {
+        validators: this.passwordMatchValidator,
+      }
+    );
+  }
 
-    constructor(
-        private http: HttpClient,
-        private router: Router
-    ) {}
+  // Validador personalizado para verificar que las contraseñas coincidan
+  passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.get("password");
+    const confirmPassword = control.get("confirmPassword");
 
-    // Validar username en tiempo real
-    validateUsername() {
-        this.usernameError = '';
-
-        if (this.username.length > 0 && this.username.length < 3) {
-            this.usernameError = 'El usuario debe tener al menos 3 caracteres';
-            return false;
-        }
-
-        if (this.username && !/^[a-zA-Z0-9]+$/.test(this.username)) {
-            this.usernameError = 'El usuario solo puede contener letras y números';
-            return false;
-        }
-
-        return true;
+    if (!password || !confirmPassword) {
+      return null;
     }
 
-    // Verificar si el usuario existe
-    checkUserExists() {
-        if (!this.username || !this.validateUsername()) {
-            return;
-        }
+    return password.value === confirmPassword.value
+      ? null
+      : { passwordMismatch: true };
+  }
 
-        this.http.post<any>(`${this.checkUserUrl}`, { username: this.username })
-            .subscribe({
-                next: (res) => {
-                    if (res.exists) {
-                        this.usernameError = 'Este usuario ya existe';
-                    }
-                },
-                error: (err) => {
-                    console.error('Error al verificar usuario:', err);
-                }
-            });
+  // Validar username en tiempo real
+  validateUsername() {
+    this.usernameError = "";
+    const usernameControl = this.registerForm.get("username");
+
+    if (!usernameControl) return true;
+
+    if (usernameControl.hasError("minlength")) {
+      this.usernameError = "El usuario debe tener al menos 6 caracteres";
+      return false;
     }
 
-    // Validar email
-    validateEmail() {
-        this.emailError = '';
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return true;
+  }
 
-        if (this.email && !emailRegex.test(this.email)) {
-            this.emailError = 'Por favor ingresa un email válido';
-            return false;
-        }
-
-        return true;
+  // Verificar si el usuario existe
+  checkUserExists() {
+    const username = this.registerForm.get("username")?.value;
+    if (!username || !this.validateUsername()) {
+      return;
     }
 
-    // Validar contraseña
-    validatePassword() {
-        this.passwordError = '';
-
-        if (this.password.length > 0 && this.password.length < 6) {
-            this.passwordError = 'La contraseña debe tener al menos 6 caracteres';
-            return false;
+    this.http.post<any>(`${this.checkUserUrl}`, { username }).subscribe({
+      next: (res) => {
+        if (res.exists) {
+          this.usernameError = "Este usuario ya existe";
         }
+      },
+      error: (err) => {
+        console.error("Error al verificar usuario:", err);
+      },
+    });
+  }
 
-        return true;
+  // Validar email
+  validateEmail() {
+    this.emailError = "";
+    const emailControl = this.registerForm.get("email");
+
+    if (!emailControl) return true;
+
+    if (emailControl.hasError("email")) {
+      this.emailError = "Por favor ingresa un email válido";
+      return false;
     }
 
-    // Validar confirmación de contraseña
-    validateConfirmPassword() {
-        this.confirmPasswordError = '';
+    return true;
+  }
 
-        if (this.confirmPassword && this.password !== this.confirmPassword) {
-            this.confirmPasswordError = 'Las contraseñas no coinciden';
-            return false;
-        }
+  // Validar contraseña
+  validatePassword() {
+    this.passwordError = "";
+    const passwordControl = this.registerForm.get("password");
 
-        return true;
+    if (!passwordControl) return true;
+
+    if (passwordControl.hasError("minlength")) {
+      this.passwordError = "La contraseña debe tener al menos 6 caracteres";
+      return false;
     }
 
-    // Alternar visibilidad de contraseña
-    togglePasswordVisibility() {
-        this.showPassword = !this.showPassword;
+    return true;
+  }
+
+  // Validar confirmación de contraseña
+  validateConfirmPassword() {
+    this.confirmPasswordError = "";
+
+    // Actualizar la validación del formulario
+    this.registerForm.updateValueAndValidity();
+
+    if (this.registerForm.hasError("passwordMismatch")) {
+      this.confirmPasswordError = "Las contraseñas no coinciden";
+      return false;
     }
 
-    // Alternar visibilidad de confirmación de contraseña
-    toggleConfirmPasswordVisibility() {
-        this.showConfirmPassword = !this.showConfirmPassword;
+    return true;
+  }
+
+  // Alternar visibilidad de contraseña
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  // Alternar visibilidad de confirmación de contraseña
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
+  onSubmit() {
+    this.errorMessage = "";
+    this.successMessage = "";
+    this.usernameError = "";
+    this.emailError = "";
+    this.passwordError = "";
+    this.confirmPasswordError = "";
+
+    // Marcar todos los campos como touched
+    Object.keys(this.registerForm.controls).forEach((key) => {
+      this.registerForm.get(key)?.markAsTouched();
+    });
+
+    // Validaciones antes de enviar
+    if (
+      !this.validateUsername() ||
+      !this.validateEmail() ||
+      !this.validatePassword() ||
+      !this.validateConfirmPassword()
+    ) {
+      return;
     }
 
-    onSubmit() {
-        this.errorMessage = '';
-        this.successMessage = '';
-        this.usernameError = '';
-        this.emailError = '';
-        this.passwordError = '';
-        this.confirmPasswordError = '';
-
-        // Validaciones antes de enviar
-        if (!this.validateUsername() || !this.validateEmail() ||
-            !this.validatePassword() || !this.validateConfirmPassword()) {
-            return;
-        }
-
-        if (this.password !== this.confirmPassword) {
-            this.confirmPasswordError = 'Las contraseñas no coinciden';
-            return;
-        }
-
-        if (!this.username || !this.email || !this.password || !this.confirmPassword) {
-            this.errorMessage = 'Por favor completa todos los campos';
-            return;
-        }
-
-        this.loading = true;
-
-        const body = {
-            username: this.username,
-            email: this.email,
-            password: this.password,
-        };
-
-        this.http.post<any>(this.apiUrl, body).subscribe({
-            next: (res) => {
-                this.loading = false;
-                this.successMessage = 'Usuario creado correctamente. Ahora puedes iniciar sesión.';
-
-                setTimeout(() => {
-                    this.router.navigate(['/login']);
-                }, 1200);
-            },
-            error: (err) => {
-                this.loading = false;
-                console.error('Error completo en registro:', err);
-                this.errorMessage = err.error?.message || 'Error al registrar usuario';
-
-                // FIX: Manejar errores específicos SIN duplicar mensajes
-                const errorMsg = err.error?.message || 'Error al registrar usuario';
-
-                if (errorMsg.includes('usuario') || errorMsg.includes('username')) {
-                    this.usernameError = errorMsg;
-                    this.errorMessage = ''; // Limpiar mensaje general
-                }
-                else if (errorMsg.includes('email') || errorMsg.includes('correo')) {
-                    this.emailError = errorMsg;
-                    this.errorMessage = ''; // Limpiar mensaje general
-                }
-                else if (errorMsg.includes('contraseña') || errorMsg.includes('password')) {
-                    this.passwordError = errorMsg;
-                    this.errorMessage = ''; // Limpiar mensaje general
-                }
-                else {
-                    // Solo mostrar error general si no es un error de campo específico
-                    this.errorMessage = errorMsg;
-                }
-            }
-        });
+    if (!this.registerForm.valid) {
+      this.errorMessage = "Por favor completa todos los campos correctamente";
+      return;
     }
+
+    this.loading = true;
+
+    const formValue = this.registerForm.value;
+    const body = {
+      username: formValue.username,
+      email: formValue.email,
+      password: formValue.password,
+    };
+
+    this.http.post<any>(this.apiUrl, body).subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.successMessage =
+          "Usuario creado correctamente. Ahora puedes iniciar sesión.";
+
+        setTimeout(() => {
+          this.router.navigate(["/login"]);
+        }, 1200);
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error("Error completo en registro:", err);
+        this.errorMessage = err.error?.message || "Error al registrar usuario";
+
+        // FIX: Manejar errores específicos SIN duplicar mensajes
+        const errorMsg = err.error?.message || "Error al registrar usuario";
+
+        if (errorMsg.includes("usuario") || errorMsg.includes("username")) {
+          this.usernameError = errorMsg;
+          this.errorMessage = ""; // Limpiar mensaje general
+        } else if (errorMsg.includes("email") || errorMsg.includes("correo")) {
+          this.emailError = errorMsg;
+          this.errorMessage = ""; // Limpiar mensaje general
+        } else if (
+          errorMsg.includes("contraseña") ||
+          errorMsg.includes("password")
+        ) {
+          this.passwordError = errorMsg;
+          this.errorMessage = ""; // Limpiar mensaje general
+        } else {
+          // Solo mostrar error general si no es un error de campo específico
+          this.errorMessage = errorMsg;
+        }
+      },
+    });
+  }
 }
