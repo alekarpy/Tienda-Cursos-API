@@ -32,20 +32,6 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     canDeactivate: [FormDeactivateGuard],
   },
-  {
-    path: "checkout/success",
-    loadComponent: () =>
-      import("./pages/checkout-success/checkout-success.component").then(
-        (m) => m.CheckoutSuccessComponent
-      ),
-  },
-  {
-    path: "checkout/cancel",
-    loadComponent: () =>
-      import("./pages/checkout-cancel/checkout-cancel.component").then(
-        (m) => m.CheckoutCancelComponent
-      ),
-  },
 
   // Rutas PROTEGIDAS (con AuthGuard) - Carga diferida (Lazy Loading)
   // Módulo de Usuario/Perfil - cada ruta se carga de forma lazy
