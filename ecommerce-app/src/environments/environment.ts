@@ -1,5 +1,5 @@
 // src/environments/environment.ts
 export const environment = {
-    production: false,
-    apiUrl: 'http://localhost:3001/api'
+  production: false,
+  apiUrl: "https://tienda-cursos-backend.onrender.com",
 };
