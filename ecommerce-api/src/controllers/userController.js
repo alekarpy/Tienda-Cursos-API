@@ -50,7 +50,7 @@ const getUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   try {
     const fieldsToUpdate = {
-      name: req.body.name,
+      username: req.body.username,
       email: req.body.email
     };
     

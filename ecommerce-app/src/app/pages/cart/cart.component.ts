@@ -38,7 +38,7 @@ export class CartComponent implements OnInit, OnDestroy {
     // Suscribirse al estado del carrito (método legacy)
     this.subscripcion.add(
       this.carritoService.cartUpdated$.subscribe(items => {
-        this.productos = items;
+      this.productos = items;
       })
     );
 
@@ -117,4 +117,4 @@ export class CartComponent implements OnInit, OnDestroy {
   get errorMessage(): string | null {
     return this.uiState?.error ?? null;
   }
-}
+  }

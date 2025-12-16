@@ -20,8 +20,30 @@ const server = express();
 const PORT = process.env.PORT || 3001;
 
 // 🟢 MIDDLEWARES GLOBALES (ANTES de las rutas)
+// Configuración de CORS para desarrollo y producción
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+    ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim())
+    : ['http://localhost:4200'];
+
 server.use(cors({
-    origin: 'http://localhost:4200',  // tu app de Angular
+    origin: function (origin, callback) {
+        // Permitir requests sin origin (mobile apps, Postman, etc.) solo en desarrollo
+        if (!origin) {
+            return callback(null, process.env.NODE_ENV !== 'production');
+        }
+        
+        // En producción, solo permitir orígenes específicos
+        if (process.env.NODE_ENV === 'production') {
+            if (allowedOrigins.indexOf(origin) !== -1) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        } else {
+            // En desarrollo, permitir localhost
+            callback(null, true);
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     credentials: true
 }));
