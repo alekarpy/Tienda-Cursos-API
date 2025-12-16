@@ -24,7 +24,14 @@
                     <h3>{{ category.name }}</h3>
                     <p>{{ category.description }}</p>
                     <div *ngIf="category.imageURL" class="category-image">
-                        <img [src]="category.imageURL" [alt]="category.name">
+                        <img 
+                            [src]="category.imageURL" 
+                            [alt]="category.name"
+                            (error)="onImageError($event)"
+                            loading="lazy">
+                    </div>
+                    <div *ngIf="!category.imageURL" class="category-image-placeholder">
+                        <p>Sin imagen</p>
                     </div>
                 </div>
                 <div class="category-actions">

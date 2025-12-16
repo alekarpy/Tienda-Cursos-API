@@ -1,7 +1,8 @@
 // admin-categories.component.ts
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { filter } from 'rxjs/operators';
 import { AdminCategoryService, Category } from '../../services/admin-category.service';
 
 @Component({
@@ -19,7 +20,16 @@ export class AdminCategoriesComponent implements OnInit {
     constructor(
         private categoryService: AdminCategoryService,
         private router: Router
-    ) {}
+    ) {
+        // Recargar categorías cuando se navega a esta ruta
+        this.router.events
+            .pipe(filter(event => event instanceof NavigationEnd))
+            .subscribe((event: any) => {
+                if (event.url === '/admin/categories' || event.urlAfterRedirects === '/admin/categories') {
+                    this.loadCategories();
+                }
+            });
+    }
 
     ngOnInit() {
         this.loadCategories();
@@ -34,6 +44,10 @@ export class AdminCategoriesComponent implements OnInit {
         this.categoryService.getCategories().subscribe({
             next: (response) => {
                 console.log('📁 [AdminCategories] Categorías cargadas:', response);
+                // Log de URLs de imágenes para debugging
+                response.data.forEach(cat => {
+                    console.log(`📁 [AdminCategories] Categoría "${cat.name}": imageURL =`, cat.imageURL);
+                });
                 this.categories = response.data;
                 this.loading = false;
             },
@@ -43,6 +57,13 @@ export class AdminCategoriesComponent implements OnInit {
                 this.loading = false;
             }
         });
+    }
+
+    onImageError(event: Event) {
+        const img = event.target as HTMLImageElement;
+        console.error('❌ [AdminCategories] Error al cargar imagen:', img.src);
+        // Opcional: mostrar una imagen placeholder
+        img.style.display = 'none';
     }
 
     createCategory() {
